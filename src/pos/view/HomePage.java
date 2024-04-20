@@ -4,6 +4,9 @@
  */
 package pos.view;
 
+import javax.swing.text.PlainDocument;
+import pos.utils.IntDocumentFilter;
+
 /**
  *
  * @author rulfa
@@ -195,6 +198,11 @@ public class HomePage extends javax.swing.JFrame {
             }
         });
 
+        final PlainDocument docField6 = (PlainDocument) jTextField6.getDocument();
+        docField6.setDocumentFilter(new IntDocumentFilter());
+
+        final PlainDocument docField7 = (PlainDocument) jTextField7.getDocument();
+        docField7.setDocumentFilter(new IntDocumentFilter());
         jTextField7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField7ActionPerformed(evt);

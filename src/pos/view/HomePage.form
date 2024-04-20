@@ -403,11 +403,17 @@
         <Component class="javax.swing.JTextField" name="jTextField5">
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField6">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="final PlainDocument docField6 = (PlainDocument) jTextField6.getDocument();&#xa;docField6.setDocumentFilter(new IntDocumentFilter());"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField7">
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField7ActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="final PlainDocument docField7 = (PlainDocument) jTextField7.getDocument();&#xa;docField7.setDocumentFilter(new IntDocumentFilter());"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField8">
           <Events>
