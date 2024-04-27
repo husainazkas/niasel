@@ -6,7 +6,6 @@ package pos.controller;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -21,11 +20,11 @@ public class AuthController extends BaseController {
 
     private boolean isSubmitting = false;
     private Optional<User> currentUser = Optional.empty();
-    
+
     public boolean getIsSubmitting() {
         return isSubmitting;
     }
-    
+
     public Optional<User> getCurrentUser() {
         return currentUser;
     }

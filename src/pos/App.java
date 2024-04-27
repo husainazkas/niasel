@@ -4,9 +4,10 @@
  */
 package pos;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import pos.controller.AuthController;
+import pos.controller.BaseController;
 import pos.exception.InstanceNotFoundException;
 import pos.view.LoginPage;
 
@@ -20,15 +21,12 @@ public class App {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-//        Thread.currentThread().getContextClassLoader();
-//        Thread.currentThread().setContextClassLoader(LoginPage.class.getClassLoader());
-//        try {
-////            Class.forName("org.hibernate.ejb.HibernatePersistenceProvider");
-////            Class.forName("org.hibernate.jpa.HibernatePersistenceProvider");
-////            Class.forName("org.eclipse.persistence.jpa.PersistenceProvider");
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            BaseController.connect();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, new JLabel(ex.getMessage()), "Connection Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         instance = new App();
         instance.authController = new AuthController();

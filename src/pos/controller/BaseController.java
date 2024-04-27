@@ -17,9 +17,22 @@ public abstract class BaseController {
     @PersistenceUnit
     protected static EntityManagerFactory emf;
 
-    public BaseController() {
-        if (emf == null) {
-            emf = Persistence.createEntityManagerFactory("PointOfSalesPU");
+    /**
+     * A method to connect to database. This will close previous connection if
+     * exists and active.
+     *
+     * @throws IllegalStateException if the entity manager factory failed to
+     * connect
+     */
+    public static void connect() {
+        disconnect();
+        emf = Persistence.createEntityManagerFactory("PointOfSalesPU");
+    }
+
+    public static void disconnect() {
+        if (emf != null && emf.isOpen()) {
+            emf.close();
+            emf = null;
         }
     }
 }
