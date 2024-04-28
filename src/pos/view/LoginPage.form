@@ -31,11 +31,11 @@
           </Group>
           <Group type="102" attributes="0">
               <EmptySpace min="430" pref="430" max="-2" attributes="0"/>
-              <Component id="jPasswordField1" min="-2" pref="200" max="-2" attributes="0"/>
+              <Component id="passwordTextField" min="-2" pref="200" max="-2" attributes="0"/>
           </Group>
           <Group type="102" attributes="0">
               <EmptySpace min="430" pref="430" max="-2" attributes="0"/>
-              <Component id="jTextField3" min="-2" pref="200" max="-2" attributes="0"/>
+              <Component id="usernameTextField" min="-2" pref="200" max="-2" attributes="0"/>
           </Group>
           <Group type="102" attributes="0">
               <EmptySpace min="300" pref="300" max="-2" attributes="0"/>
@@ -60,11 +60,11 @@
           </Group>
           <Group type="102" attributes="0">
               <EmptySpace min="200" pref="200" max="-2" attributes="0"/>
-              <Component id="jPasswordField1" min="-2" pref="40" max="-2" attributes="0"/>
+              <Component id="passwordTextField" min="-2" pref="40" max="-2" attributes="0"/>
           </Group>
           <Group type="102" attributes="0">
               <EmptySpace min="130" pref="130" max="-2" attributes="0"/>
-              <Component id="jTextField3" min="-2" pref="40" max="-2" attributes="0"/>
+              <Component id="usernameTextField" min="-2" pref="40" max="-2" attributes="0"/>
           </Group>
           <Group type="102" attributes="0">
               <EmptySpace min="200" pref="200" max="-2" attributes="0"/>
@@ -83,9 +83,9 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JPasswordField" name="jPasswordField1">
+    <Component class="javax.swing.JPasswordField" name="passwordTextField">
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField3">
+    <Component class="javax.swing.JTextField" name="usernameTextField">
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField2">
       <Properties>
@@ -104,6 +104,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="null"/>
         </Property>
+        <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
@@ -130,6 +131,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="null"/>
         </Property>
+        <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">

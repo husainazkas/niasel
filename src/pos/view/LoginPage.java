@@ -4,6 +4,13 @@
  */
 package pos.view;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import pos.App;
+import pos.controller.AuthController;
+
 /**
  *
  * @author rulfa
@@ -11,7 +18,7 @@ package pos.view;
 public class LoginPage extends javax.swing.JFrame {
 
     /**
-     * Creates new form TampilGambar
+     * Creates new form LoginPage
      */
     public LoginPage() {
         initComponents();
@@ -26,8 +33,8 @@ public class LoginPage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jTextField3 = new javax.swing.JTextField();
+        passwordTextField = new javax.swing.JPasswordField();
+        usernameTextField = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -45,6 +52,7 @@ public class LoginPage extends javax.swing.JFrame {
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField2.setText("Password");
         jTextField2.setBorder(null);
+        jTextField2.setFocusable(false);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/images/CashierResized.png"))); // NOI18N
 
@@ -55,6 +63,7 @@ public class LoginPage extends javax.swing.JFrame {
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField1.setText("Username");
         jTextField1.setBorder(null);
+        jTextField1.setFocusable(false);
 
         jButton1.setBackground(new java.awt.Color(142, 188, 227));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -78,10 +87,10 @@ public class LoginPage extends javax.swing.JFrame {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(430, 430, 430)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(430, 430, 430)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(300, 300, 300)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -100,10 +109,10 @@ public class LoginPage extends javax.swing.JFrame {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(200, 200, 200)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(130, 130, 130)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(200, 200, 200)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -121,47 +130,25 @@ public class LoginPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            final AuthController authController = App.getInstance().getAuthController();
+            authController.login(usernameTextField.getText(), passwordTextField.getText());
+        } catch (Exception ex) {
+            Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, ex.getMessage());
+            JOptionPane.showMessageDialog(this, new JLabel(ex.getMessage()), "Login Failed", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         dispose();
         new HomePage().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            final LoginPage loginPage = new LoginPage();
-//                loginPage.setExtendedState(Frame.MAXIMIZED_BOTH);
-//                loginPage.set;
-            loginPage.setVisible(true);
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JPasswordField passwordTextField;
+    private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
 }
