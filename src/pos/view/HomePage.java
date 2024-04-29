@@ -10,6 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -19,7 +21,6 @@ import pos.App;
 import pos.controller.AuthController;
 import pos.controller.ProductController;
 import pos.exception.InstanceNotFoundException;
-import pos.interfaces.TestSatisfaction;
 import pos.model.Product;
 import pos.model.User;
 import pos.utils.CustomDocumentFilter;
@@ -206,7 +207,23 @@ public class HomePage extends javax.swing.JFrame {
 
         jLabel2.setText("Search");
 
-        jTextField1.setToolTipText("Item Id/Barcode Id/Item Name");
+        jTextField1.setToolTipText("ID/Barcode ID/Name/Brand");
+        jTextField1.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                controller.filterBySearch(jTextField1.getText(), jTable1.getModel());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                controller.filterBySearch(jTextField1.getText(), jTable1.getModel());
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                controller.filterBySearch(jTextField1.getText(), jTable1.getModel());
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

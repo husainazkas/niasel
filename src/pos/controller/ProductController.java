@@ -63,6 +63,28 @@ public class ProductController extends BaseController {
         }
     }
 
+    public void filterBySearch(String text, TableModel tableModel) {
+        DefaultTableModel table = (DefaultTableModel) tableModel;
+        table.setRowCount(0);
+        int index = 0;
+        for (int i = index; i < products.size(); i++) {
+            Product p = products.get(i);
+            String productId = String.valueOf(p.getId());
+            String productName = p.getName().toLowerCase();
+            String productBrand = p.getBrand().toLowerCase();
+            text = text.toLowerCase();
+
+            boolean isMatch = productId.contains(text) || p.getBarcodeId().contains(text)
+                    || productName.contains(text) || productBrand.contains(text);
+            if (isMatch || text.isEmpty()) {
+                Object[] row = {Long.valueOf(String.valueOf(index + 1)), p.getId(), p.getBarcodeId(), p.getName(), p.getPrice(), p.getStock(), p.getBrand()};
+                table.addRow(row);
+
+                index++;
+            }
+        }
+    }
+
     public void save(User user, int index, String barcodeId, String name, String price, String stock, String brand) {
         try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
