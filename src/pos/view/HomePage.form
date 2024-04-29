@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.6" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" value="Point of Sales | Home"/>
@@ -195,8 +195,9 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="jTable1">
                   <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="6" rowCount="0">
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor" postCode="DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();&#xa;leftRenderer.setHorizontalAlignment(JLabel.LEFT);&#xa;&#xa;DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();&#xa;centerRenderer.setHorizontalAlignment(JLabel.CENTER);&#xa;&#xa;TableColumnModel tableColumn = jTable1.getColumnModel();&#xa;TableColumn firstColumn = tableColumn.getColumn(0);&#xa;firstColumn.setPreferredWidth(30);&#xa;firstColumn.setCellRenderer(centerRenderer);&#xa;&#xa;DefaultTableCellRenderer centerHeaderRenderer = (DefaultTableCellRenderer) jTable1.getTableHeader().getDefaultRenderer();&#xa;centerHeaderRenderer.setHorizontalAlignment(JLabel.CENTER);&#xa;firstColumn.setHeaderRenderer(centerHeaderRenderer);&#xa;&#xa;tableColumn.getColumn(1).setCellRenderer(leftRenderer);&#xa;tableColumn.getColumn(5).sizeWidthToFit();">
+                      <Table columnCount="7" rowCount="0">
+                        <Column editable="false" title="#" type="java.lang.Long"/>
                         <Column editable="false" title="ID" type="java.lang.Long"/>
                         <Column editable="false" title="Barcode ID" type="java.lang.String"/>
                         <Column editable="false" title="Name" type="java.lang.String"/>
@@ -225,6 +226,10 @@
                         </Column>
                       </TableColumnModel>
                     </Property>
+                    <Property name="selectionMode" type="int" value="0"/>
+                    <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+                      <JTableSelectionModel selectionMode="0"/>
+                    </Property>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
@@ -241,8 +246,11 @@
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField1">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Item Id/Barcode Id/Item Name"/>
+            <Property name="toolTipText" type="java.lang.String" value="ID/Barcode ID/Name/Brand"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jTextField1.getDocument().addDocumentListener(new DocumentListener() {&#xa;  @Override&#xa;public void changedUpdate(DocumentEvent e) {&#xa;                controller.filterBySearch(jTextField1.getText(), jTable1.getModel());&#xa;            }&#xa;&#xa;            @Override&#xa;public void removeUpdate(DocumentEvent e) {&#xa;                controller.filterBySearch(jTextField1.getText(), jTable1.getModel());&#xa;            }&#xa;&#xa;            @Override&#xa;public void insertUpdate(DocumentEvent e) {&#xa;                controller.filterBySearch(jTextField1.getText(), jTable1.getModel());&#xa;            }&#xa;});"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -280,7 +288,7 @@
                               <Component id="jLabel7" min="-2" pref="105" max="-2" attributes="0"/>
                               <Component id="jLabel8" alignment="1" min="-2" pref="105" max="-2" attributes="0"/>
                               <Component id="jLabel9" alignment="1" min="-2" pref="105" max="-2" attributes="0"/>
-                              <Component id="jButton1" alignment="1" min="-2" pref="74" max="-2" attributes="0"/>
+                              <Component id="saveButton" alignment="1" min="-2" pref="74" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
@@ -298,9 +306,9 @@
                                               <Component id="jTextField9" min="-2" pref="191" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="1" attributes="0">
-                                              <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                                              <Component id="removeButton" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="32767" attributes="0"/>
-                                              <Component id="jButton3" min="-2" pref="65" max="-2" attributes="0"/>
+                                              <Component id="newButton" min="-2" pref="65" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Component id="jTextField6" alignment="0" min="-2" pref="191" max="-2" attributes="0"/>
@@ -353,9 +361,9 @@
                   </Group>
                   <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButton1" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
-                      <Component id="jButton2" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
-                      <Component id="jButton3" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="saveButton" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="removeButton" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="newButton" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="114" max="32767" attributes="0"/>
               </Group>
@@ -404,17 +412,22 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField4">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="final CustomDocumentFilter numberLengthFilter = new CustomDocumentFilter();&#xa;numberLengthFilter.setIsMustNumber(true);&#xa;numberLengthFilter.setIsCanEmpty(true);&#xa;numberLengthFilter.setMaxLength(12);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="final PlainDocument docField4 = (PlainDocument) jTextField4.getDocument();&#xa;docField4.setDocumentFilter(numberLengthFilter);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField5">
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField6">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="final PlainDocument docField6 = (PlainDocument) jTextField6.getDocument();&#xa;docField6.setDocumentFilter(new IntDocumentFilter());"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="final CustomDocumentFilter numberFilter = new CustomDocumentFilter();&#xa;numberFilter.setIsMustNumber(true);&#xa;numberFilter.setIsCanEmpty(true);&#xa;numberFilter.setMaxLength(11);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="final PlainDocument docField6 = (PlainDocument) jTextField6.getDocument();&#xa;docField6.setDocumentFilter(numberFilter);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField7">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="final PlainDocument docField7 = (PlainDocument) jTextField7.getDocument();&#xa;docField7.setDocumentFilter(new IntDocumentFilter());"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="final PlainDocument docField7 = (PlainDocument) jTextField7.getDocument();&#xa;docField7.setDocumentFilter(numberFilter);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField8">
@@ -424,20 +437,29 @@
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="saveButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Save"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveButtonActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="removeButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Remove"/>
+            <Property name="text" type="java.lang.String" value="Remove" postCode="removeButton.setVisible(false);"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeButtonActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton3">
+        <Component class="javax.swing.JButton" name="newButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="New"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
