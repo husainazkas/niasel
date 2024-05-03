@@ -13,25 +13,16 @@ import java.util.Date;
  * @author husainazkas
  */
 @Entity
-@Table(name = "master_user")
-public class User implements Serializable {
+@Table(name = "master_role")
+public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(insertable = false, updatable = false)
-    private String username;
-
-    @Column(name = "role_id")
-    private Long roleId;
+    @Column()
+    private String name;
 
     @Column(name = "is_active", insertable = false, columnDefinition = "BIT", length = 1)
     private Boolean isActive;
@@ -59,28 +50,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean getIsActive() {
@@ -135,10 +110,7 @@ public class User implements Serializable {
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
-        hash += (firstName != null ? firstName.hashCode() : 0);
-        hash += (lastName != null ? lastName.hashCode() : 0);
-        hash += (username != null ? username.hashCode() : 0);
-        hash += (roleId != null ? roleId.hashCode() : 0);
+        hash += (name != null ? name.hashCode() : 0);
         hash += (isActive != null ? isActive.hashCode() : 0);
         hash += (isDeleted != null ? isDeleted.hashCode() : 0);
         hash += (updatedAt != null ? updatedAt.hashCode() : 0);
@@ -151,23 +123,14 @@ public class User implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
+        if (!(object instanceof Role)) {
             return false;
         }
-        User other = (User) object;
+        Role other = (Role) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
-        if ((this.firstName == null && other.firstName != null) || (this.firstName != null && !this.firstName.equals(other.firstName))) {
-            return false;
-        }
-        if ((this.lastName == null && other.lastName != null) || (this.lastName != null && !this.lastName.equals(other.lastName))) {
-            return false;
-        }
-        if ((this.username == null && other.username != null) || (this.username != null && !this.username.equals(other.username))) {
-            return false;
-        }
-        if ((this.roleId == null && other.roleId != null) || (this.roleId != null && !this.roleId.equals(other.roleId))) {
+        if ((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name))) {
             return false;
         }
         if ((this.isActive == null && other.isActive != null) || (this.isActive != null && !this.isActive.equals(other.isActive))) {
@@ -190,7 +153,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "pos.model.User[ id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + username + ", roleId=" + roleId + ", isActive=" + isActive + ", isDeleted=" + isDeleted + ", updatedAt=" + updatedAt + ", updatedBy=" + updatedBy + ", createdAt=" + createdAt + ", createdBy=" + createdBy + " ]";
+        return "pos.model.Role[ id=" + id + ", name=" + name + ", isActive=" + isActive + ", isDeleted=" + isDeleted + ", updatedAt=" + updatedAt + ", updatedBy=" + updatedBy + ", createdAt=" + createdAt + ", createdBy=" + createdBy + " ]";
     }
 
 }

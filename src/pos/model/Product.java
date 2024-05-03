@@ -198,7 +198,7 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "pos.model.Product[ id=" + id + ", barcodeId=" + barcodeId + ", name=" + name + ", price=" + price + ", stock=" + stock + ", brand=" + brand + ", updatedAt=" + updatedAt + ", updatedBy=" + updatedBy + ", createdAt=" + createdAt + ", createdBy=" + createdBy + " ]";
+        return "pos.model.Product[ id=" + id + ", barcodeId=" + barcodeId + ", name=" + name + ", price=" + price + ", stock=" + stock + ", brand=" + brand + ", isDeleted=" + isDeleted + ", updatedAt=" + updatedAt + ", updatedBy=" + updatedBy + ", createdAt=" + createdAt + ", createdBy=" + createdBy + " ]";
     }
 
 }
