@@ -36,7 +36,7 @@ public class AuthController extends BaseController {
         final String encodedPass = DigestUtils.sha1Hex(password);
 
         try (final EntityManager em = emf.createEntityManager()) {
-            Query query = em.createNativeQuery("Select * FROM master_user e WHERE e.username = :username AND e.password = :password", User.class);
+            Query query = em.createNativeQuery("SELECT * FROM master_user e WHERE e.username = :username AND e.password = :password", User.class);
             query.setParameter("username", encodedUsername);
             query.setParameter("password", encodedPass);
 
