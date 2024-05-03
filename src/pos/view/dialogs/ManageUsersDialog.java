@@ -21,7 +21,7 @@ public class ManageUsersDialog extends javax.swing.JDialog {
     private final ManageUsersController controller = new ManageUsersController();
 
     /**
-     * Creates new form ManageUsers
+     * Creates new form ManageUsersDialog
      *
      * @param owner Usually JFrame
      */
@@ -149,6 +149,7 @@ public class ManageUsersDialog extends javax.swing.JDialog {
 
     private void newUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newUserButtonActionPerformed
         new UserDetailDialog(this, controller, null).setVisible(true);
+        controller.loadUsers(jTable1.getModel());
     }//GEN-LAST:event_newUserButtonActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -156,6 +157,7 @@ public class ManageUsersDialog extends javax.swing.JDialog {
         int row = source.rowAtPoint(evt.getPoint());
         long id = (long) source.getModel().getValueAt(row, 6);
         new UserDetailDialog(this, controller, id).setVisible(true);
+        controller.loadUsers(jTable1.getModel());
     }//GEN-LAST:event_jTable1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
