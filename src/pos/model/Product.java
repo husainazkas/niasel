@@ -13,28 +13,28 @@ import java.util.Date;
  * @author husainazkas
  */
 @Entity
-@Table(name = "master_user")
-public class User implements Serializable {
+@Table(name = "master_product")
+public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "first_name")
-    private String firstName;
+    @Column(name = "barcode_id")
+    private String barcodeId;
 
-    @Column(name = "last_name")
-    private String lastName;
+    @Column()
+    private String name;
 
-    @Column(insertable = false, updatable = false)
-    private String username;
+    @Column()
+    private Long price;
 
-    @Column(name = "role_id")
-    private Long roleId;
+    @Column()
+    private Integer stock;
 
-    @Column(name = "is_active", insertable = false, columnDefinition = "BIT", length = 1)
-    private Boolean isActive;
+    @Column()
+    private String brand;
 
     @Column(name = "is_deleted", insertable = false, columnDefinition = "BIT", length = 1)
     private Boolean isDeleted;
@@ -59,47 +59,47 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getBarcodeId() {
+        return barcodeId;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setBarcodeId(String barcodeId) {
+        this.barcodeId = barcodeId;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getName() {
+        return name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    
-    public String getUsername() {
-        return username;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public Long getPrice() {
+        return price;
     }
 
-    public Long getRoleId() {
-        return roleId;
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public Integer getStock() {
+        return stock;
     }
 
-    public boolean getIsActive() {
-        return isActive;
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
+    public String getBrand() {
+        return brand;
     }
 
-    public boolean getIsDeleted() {
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public boolean isIsDeleted() {
         return isDeleted;
     }
 
@@ -143,11 +143,11 @@ public class User implements Serializable {
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
-        hash += (firstName != null ? firstName.hashCode() : 0);
-        hash += (lastName != null ? lastName.hashCode() : 0);
-        hash += (username != null ? username.hashCode() : 0);
-        hash += (roleId != null ? roleId.hashCode() : 0);
-        hash += (isActive != null ? isActive.hashCode() : 0);
+        hash += (barcodeId != null ? barcodeId.hashCode() : 0);
+        hash += (name != null ? name.hashCode() : 0);
+        hash += (price != null ? price.hashCode() : 0);
+        hash += (stock != null ? stock.hashCode() : 0);
+        hash += (brand != null ? brand.hashCode() : 0);
         hash += (isDeleted != null ? isDeleted.hashCode() : 0);
         hash += (updatedAt != null ? updatedAt.hashCode() : 0);
         hash += (updatedBy != null ? updatedBy.hashCode() : 0);
@@ -159,26 +159,26 @@ public class User implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
+        if (!(object instanceof Product)) {
             return false;
         }
-        User other = (User) object;
+        Product other = (Product) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
-        if ((this.firstName == null && other.firstName != null) || (this.firstName != null && !this.firstName.equals(other.firstName))) {
+        if ((this.barcodeId == null && other.barcodeId != null) || (this.barcodeId != null && !this.barcodeId.equals(other.barcodeId))) {
             return false;
         }
-        if ((this.lastName == null && other.lastName != null) || (this.lastName != null && !this.lastName.equals(other.lastName))) {
+        if ((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name))) {
             return false;
         }
-        if ((this.username == null && other.username != null) || (this.username != null && !this.username.equals(other.username))) {
+        if ((this.price == null && other.price != null) || (this.price != null && !this.price.equals(other.price))) {
             return false;
         }
-        if ((this.roleId == null && other.roleId != null) || (this.roleId != null && !this.roleId.equals(other.roleId))) {
+        if ((this.stock == null && other.stock != null) || (this.stock != null && !this.stock.equals(other.stock))) {
             return false;
         }
-        if ((this.isActive == null && other.isActive != null) || (this.isActive != null && !this.isActive.equals(other.isActive))) {
+        if ((this.brand == null && other.brand != null) || (this.brand != null && !this.brand.equals(other.brand))) {
             return false;
         }
         if ((this.isDeleted == null && other.isDeleted != null) || (this.isDeleted != null && !this.isDeleted.equals(other.isDeleted))) {
@@ -198,7 +198,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "pos.model.User[ id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + username + ", roleId=" + roleId + ", isActive=" + isActive + ", isDeleted=" + isDeleted + ", updatedAt=" + updatedAt + ", updatedBy=" + updatedBy + ", createdAt=" + createdAt + ", createdBy=" + createdBy + " ]";
+        return "pos.model.Product[ id=" + id + ", barcodeId=" + barcodeId + ", name=" + name + ", price=" + price + ", stock=" + stock + ", brand=" + brand + ", isDeleted=" + isDeleted + ", updatedAt=" + updatedAt + ", updatedBy=" + updatedBy + ", createdAt=" + createdAt + ", createdBy=" + createdBy + " ]";
     }
 
 }

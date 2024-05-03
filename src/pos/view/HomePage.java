@@ -4,15 +4,27 @@
  */
 package pos.view;
 
+import pos.view.dialogs.ManageUsersDialog;
+import java.text.DateFormat;
+import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.text.PlainDocument;
 import pos.App;
 import pos.controller.AuthController;
+import pos.controller.ProductController;
 import pos.exception.InstanceNotFoundException;
-import pos.utils.IntDocumentFilter;
+import pos.model.Product;
+import pos.model.User;
+import pos.utils.CustomDocumentFilter;
 
 /**
  *
@@ -20,11 +32,25 @@ import pos.utils.IntDocumentFilter;
  */
 public class HomePage extends javax.swing.JFrame {
 
+    private final ProductController controller = new ProductController();
+
     /**
      * Creates new form Menu
      */
     public HomePage() {
         initComponents();
+        jTable1.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
+            updateSelectionTable();
+        });
+        controller.loadProducts(jTable1.getModel());
+    }
+
+    @Override
+    public void dispose() {
+        jTable1.getSelectionModel().removeListSelectionListener((ListSelectionEvent e) -> {
+
+        });
+        super.dispose();
     }
 
     /**
@@ -39,7 +65,7 @@ public class HomePage extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        manageUserButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -56,14 +82,22 @@ public class HomePage extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
+        final CustomDocumentFilter numberLengthFilter = new CustomDocumentFilter();
+        numberLengthFilter.setIsMustNumber(true);
+        numberLengthFilter.setIsCanEmpty(true);
+        numberLengthFilter.setMaxLength(12);
         jTextField5 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
+        final CustomDocumentFilter numberFilter = new CustomDocumentFilter();
+        numberFilter.setIsMustNumber(true);
+        numberFilter.setIsCanEmpty(true);
+        numberFilter.setMaxLength(11);
         jTextField7 = new javax.swing.JTextField();
         jTextField8 = new javax.swing.JTextField();
         jTextField9 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
+        removeButton = new javax.swing.JButton();
+        newButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Point of Sales | Home");
@@ -82,8 +116,13 @@ public class HomePage extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setText("Manage");
-        jButton5.setPreferredSize(new java.awt.Dimension(76, 27));
+        manageUserButton.setText("Manage");
+        manageUserButton.setPreferredSize(new java.awt.Dimension(76, 27));
+        manageUserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageUserButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -93,7 +132,7 @@ public class HomePage extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(manageUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47))
@@ -105,7 +144,7 @@ public class HomePage extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(manageUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
@@ -118,14 +157,14 @@ public class HomePage extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Barcode ID", "Name", "Price", "Stock", "Brand"
+                "#", "ID", "Barcode ID", "Name", "Price", "Stock", "Brand"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -136,7 +175,27 @@ public class HomePage extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        DefaultTableCellRenderer centerHeaderRenderer = (DefaultTableCellRenderer) jTable1.getTableHeader().getDefaultRenderer();
+        centerHeaderRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
+        leftRenderer.setHorizontalAlignment(JLabel.LEFT);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        TableColumnModel tableColumn = jTable1.getColumnModel();
+
+        TableColumn indexColumn = tableColumn.getColumn(0);
+        indexColumn.setPreferredWidth(30);
+        indexColumn.setCellRenderer(centerRenderer);
+
+        tableColumn.getColumn(1).setCellRenderer(leftRenderer);
+        tableColumn.getColumn(5).sizeWidthToFit();
         jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTable1.setFillsViewportHeight(true);
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jTable1);
         jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
@@ -148,14 +207,28 @@ public class HomePage extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 274, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
         );
 
         jLabel2.setText("Search");
 
-        jTextField1.setToolTipText("Item Id/Barcode Id/Item Name");
+        jTextField1.setToolTipText("ID/Barcode ID/Name/Brand");
+        jTextField1.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                controller.filterBySearch(jTextField1.getText(), jTable1.getModel());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                controller.filterBySearch(jTextField1.getText(), jTable1.getModel());
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                controller.filterBySearch(jTextField1.getText(), jTable1.getModel());
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -180,7 +253,7 @@ public class HomePage extends javax.swing.JFrame {
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Item Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
@@ -201,19 +274,38 @@ public class HomePage extends javax.swing.JFrame {
 
         jTextField3.setEditable(false);
 
+        final PlainDocument docField4 = (PlainDocument) jTextField4.getDocument();
+        docField4.setDocumentFilter(numberLengthFilter);
+
         final PlainDocument docField6 = (PlainDocument) jTextField6.getDocument();
-        docField6.setDocumentFilter(new IntDocumentFilter());
+        docField6.setDocumentFilter(numberFilter);
 
         final PlainDocument docField7 = (PlainDocument) jTextField7.getDocument();
-        docField7.setDocumentFilter(new IntDocumentFilter());
+        docField7.setDocumentFilter(numberFilter);
 
         jTextField9.setEditable(false);
 
-        jButton1.setText("Save");
+        saveButton.setText("Save");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Remove");
+        removeButton.setText("Remove");
+        removeButton.setVisible(false);
+        removeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeButtonActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("New");
+        newButton.setText("New");
+        newButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -237,7 +329,7 @@ public class HomePage extends javax.swing.JFrame {
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -252,9 +344,9 @@ public class HomePage extends javax.swing.JFrame {
                                             .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(jPanel4Layout.createSequentialGroup()
-                                            .addComponent(jButton2)
+                                            .addComponent(removeButton)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(newButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
@@ -291,9 +383,9 @@ public class HomePage extends javax.swing.JFrame {
                     .addComponent(jLabel9))
                 .addGap(42, 42, 42)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(removeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(newButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(114, Short.MAX_VALUE))
         );
 
@@ -315,8 +407,10 @@ public class HomePage extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -338,12 +432,161 @@ public class HomePage extends javax.swing.JFrame {
         new LoginPage().setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
+        if (hasChanges()) {
+            int result = JOptionPane.showConfirmDialog(this, "Changes has not been saved. Discard changes?", "Remove Product", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (result == 1) {
+                return;
+            }
+        }
+
+        clearField(true);
+    }//GEN-LAST:event_newButtonActionPerformed
+
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        if (!hasChanges()) {
+            return;
+        }
+
+        String barcodeId = jTextField4.getText();
+        String name = jTextField5.getText();
+        String price = jTextField6.getText();
+        String stock = jTextField7.getText();
+        String brand = jTextField8.getText();
+
+        if (barcodeId.isBlank() || name.isBlank() || price.isBlank() || stock.isBlank() || brand.isBlank()) {
+            JOptionPane.showMessageDialog(this, "All fields must be filled", "Operation Failed", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int index = jTable1.getSelectedRow();
+        String message;
+        if (index == -1) {
+            message = "Save this product?";
+        } else {
+            message = "Update product data?";
+        }
+
+        int result = JOptionPane.showConfirmDialog(this, message, "Save Product", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (result == 1) {
+            return;
+        }
+
+        User user;
+        try {
+            user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+        } catch (InstanceNotFoundException | NoSuchElementException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Operation Failed", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (barcodeId.length() < 12) {
+            JOptionPane.showMessageDialog(this, "Barcode ID must have 12 length", "Operation Failed", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        controller.save(user, index, barcodeId, name, price, stock, brand);
+        controller.loadProducts(jTable1.getModel());
+
+        clearField(false);
+    }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
+        int result = JOptionPane.showConfirmDialog(this, "Are you sure delete this product?", "Remove Product", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (result == 1) {
+            return;
+        }
+
+        User user;
+        try {
+            user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+        } catch (InstanceNotFoundException | NoSuchElementException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Operation Failed", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        controller.remove(user, jTable1.getSelectedRow());
+        controller.loadProducts(jTable1.getModel());
+
+        clearField(true);
+    }//GEN-LAST:event_removeButtonActionPerformed
+
+    private void manageUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageUserButtonActionPerformed
+        new ManageUsersDialog(this).setVisible(true);
+    }//GEN-LAST:event_manageUserButtonActionPerformed
+
+    private void updateSelectionTable() {
+        Product product = controller.getSelectedProduct(jTable1.getSelectedRow());
+        if (product == null) {
+            removeButton.setVisible(false);
+            clearField(false);
+        } else {
+            removeButton.setVisible(true);
+            jTextField3.setText(String.valueOf(product.getId()));
+            jTextField4.setText(product.getBarcodeId());
+            jTextField5.setText(product.getName());
+            jTextField6.setText(String.valueOf(product.getPrice()));
+            jTextField7.setText(String.valueOf(product.getStock()));
+            jTextField8.setText(product.getBrand());
+            jTextField9.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM).format(product.getUpdatedAt()));
+        }
+    }
+
+    private boolean hasChanges() {
+        int index = jTable1.getSelectedRow();
+        Product product = controller.getSelectedProduct(index);
+
+        String barcodeId = jTextField4.getText();
+        String name = jTextField5.getText();
+        String price = jTextField6.getText();
+        String stock = jTextField7.getText();
+        String brand = jTextField8.getText();
+
+        boolean changed = false;
+        if (product != null) {
+            if (!barcodeId.equals(product.getBarcodeId())) {
+                changed = true;
+            } else if (!name.equals(product.getName())) {
+                changed = true;
+            } else if (!price.equals(String.valueOf(product.getPrice()))) {
+                changed = true;
+            } else if (!stock.equals(String.valueOf(product.getStock()))) {
+                changed = true;
+            } else if (!brand.equals(product.getBrand())) {
+                changed = true;
+            }
+        } else {
+            if (!barcodeId.isBlank()) {
+                changed = true;
+            } else if (!name.isBlank()) {
+                changed = true;
+            } else if (!price.isBlank()) {
+                changed = true;
+            } else if (!stock.isBlank()) {
+                changed = true;
+            } else if (!brand.isBlank()) {
+                changed = true;
+            }
+        }
+
+        return changed;
+    }
+
+    private void clearField(boolean unselect) {
+        if (unselect) {
+            jTable1.clearSelection();
+        }
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jTextField6.setText("");
+        jTextField7.setText("");
+        jTextField8.setText("");
+        jTextField9.setText("");
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -367,5 +610,9 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JButton manageUserButton;
+    private javax.swing.JButton newButton;
+    private javax.swing.JButton removeButton;
+    private javax.swing.JButton saveButton;
     // End of variables declaration//GEN-END:variables
 }
