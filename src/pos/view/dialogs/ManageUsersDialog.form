@@ -64,14 +64,15 @@
       <SubComponents>
         <Component class="javax.swing.JTable" name="jTable1">
           <Properties>
-            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor" postCode="DefaultTableCellRenderer centerHeaderRenderer = (DefaultTableCellRenderer) jTable1.getTableHeader().getDefaultRenderer();&#xa;centerHeaderRenderer.setHorizontalAlignment(JLabel.CENTER);&#xa;&#xa;DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();&#xa;centerRenderer.setHorizontalAlignment(JLabel.CENTER);&#xa;&#xa;TableColumnModel tableColumn = jTable1.getColumnModel();&#xa;&#xa;TableColumn indexColumn = tableColumn.getColumn(0);&#xa;indexColumn.setCellRenderer(centerRenderer);&#xa;indexColumn.setPreferredWidth(5);&#xa;&#xa;TableColumn roleColumn = tableColumn.getColumn(2);&#xa;roleColumn.setCellRenderer(centerRenderer);&#xa;&#xa;TableColumn statusColumn = tableColumn.getColumn(3);&#xa;statusColumn.setCellRenderer(centerRenderer);&#xa;&#xa;TableColumn lastUpdateColumn = tableColumn.getColumn(4);&#xa;lastUpdateColumn.setCellRenderer(centerRenderer);&#xa;&#xa;TableColumn createdColumn = tableColumn.getColumn(5);&#xa;createdColumn.setCellRenderer(centerRenderer);">
-              <Table columnCount="6" rowCount="0">
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor" postCode="DefaultTableCellRenderer centerHeaderRenderer = (DefaultTableCellRenderer) jTable1.getTableHeader().getDefaultRenderer();&#xa;centerHeaderRenderer.setHorizontalAlignment(JLabel.CENTER);&#xa;&#xa;DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();&#xa;centerRenderer.setHorizontalAlignment(JLabel.CENTER);&#xa;&#xa;TableColumnModel tableColumn = jTable1.getColumnModel();&#xa;jTable1.removeColumn(tableColumn.getColumn(6));&#xa;&#xa;TableColumn indexColumn = tableColumn.getColumn(0);&#xa;indexColumn.setCellRenderer(centerRenderer);&#xa;indexColumn.setPreferredWidth(5);&#xa;&#xa;TableColumn roleColumn = tableColumn.getColumn(2);&#xa;roleColumn.setCellRenderer(centerRenderer);&#xa;&#xa;TableColumn statusColumn = tableColumn.getColumn(3);&#xa;statusColumn.setCellRenderer(centerRenderer);&#xa;&#xa;TableColumn lastUpdateColumn = tableColumn.getColumn(4);&#xa;lastUpdateColumn.setCellRenderer(centerRenderer);&#xa;&#xa;TableColumn createdColumn = tableColumn.getColumn(5);&#xa;createdColumn.setCellRenderer(centerRenderer);">
+              <Table columnCount="7" rowCount="0">
                 <Column editable="false" title="#" type="java.lang.Integer"/>
                 <Column editable="false" title="Full Name" type="java.lang.String"/>
                 <Column editable="false" title="Role" type="java.lang.String"/>
                 <Column editable="false" title="Status" type="java.lang.String"/>
                 <Column editable="false" title="Last Update" type="java.lang.String"/>
                 <Column editable="false" title="Created" type="java.lang.String"/>
+                <Column editable="false" title="ID (hidden)" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -115,6 +116,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable1MouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -31,6 +32,7 @@ public class ManageUsersController extends BaseController {
 
     private List<User> users = new ArrayList();
     private List<Role> roles = new ArrayList();
+    private Optional<User> selectedUser = Optional.empty();
 
     private final DateFormat dateFormat = new SimpleDateFormat();
 
@@ -64,9 +66,32 @@ public class ManageUsersController extends BaseController {
                 role != null ? role.getName() : "-",
                 u.getIsActive() ? "Active" : "Inactive",
                 dateFormat.format(u.getUpdatedAt()),
-                dateFormat.format(u.getCreatedAt())
+                dateFormat.format(u.getCreatedAt()),
+                u.getId() // This is hidden by view
             };
             table.addRow(row);
         }
+    }
+
+    /**
+     *
+     * @param id a numeric user id to get full data of user
+     */
+    public void selectUser(Long id) {
+        if (id != null) {
+            selectedUser = users.stream().filter(e -> {
+                return Objects.equals(e.getId(), id);
+            }).findFirst();
+        } else {
+            selectedUser = Optional.empty();
+        }
+    }
+
+    /**
+     *
+     * @return a user that has been selected before using {@link selectUser}
+     */
+    public User getUser() {
+        return selectedUser.orElse(null);
     }
 }

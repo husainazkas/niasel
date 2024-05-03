@@ -6,6 +6,7 @@ package pos.view.dialogs;
 
 import java.awt.Frame;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -53,14 +54,14 @@ public class ManageUsersDialog extends javax.swing.JDialog {
 
             },
             new String [] {
-                "#", "Full Name", "Role", "Status", "Last Update", "Created"
+                "#", "Full Name", "Role", "Status", "Last Update", "Created", "ID (hidden)"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -78,6 +79,7 @@ public class ManageUsersDialog extends javax.swing.JDialog {
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
         TableColumnModel tableColumn = jTable1.getColumnModel();
+        jTable1.removeColumn(tableColumn.getColumn(6));
 
         TableColumn indexColumn = tableColumn.getColumn(0);
         indexColumn.setCellRenderer(centerRenderer);
@@ -98,6 +100,11 @@ public class ManageUsersDialog extends javax.swing.JDialog {
         jTable1.setFillsViewportHeight(true);
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         newUserButton.setText("New");
@@ -141,8 +148,15 @@ public class ManageUsersDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void newUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newUserButtonActionPerformed
-        // TODO add your handling code here:
+        new UserDetailDialog(this, controller, null).setVisible(true);
     }//GEN-LAST:event_newUserButtonActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        JTable source = (JTable) evt.getSource();
+        int row = source.rowAtPoint(evt.getPoint());
+        long id = (long) source.getModel().getValueAt(row, 6);
+        new UserDetailDialog(this, controller, id).setVisible(true);
+    }//GEN-LAST:event_jTable1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;

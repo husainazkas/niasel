@@ -2,19 +2,54 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package pos.view;
+package pos.view.dialogs;
+
+import java.util.Objects;
+import pos.controller.ManageUsersController;
 
 /**
  *
  * @author rulfa
  */
-public class UserDetail extends javax.swing.JFrame {
+public class UserDetailDialog extends javax.swing.JDialog {
+
+    private final ManageUsersController controller;
 
     /**
      * Creates new form UserDetail
+     *
+     * @param owner Usually JFrame
+     * @param controller to communicate with database, this must not be null
+     * @param userId to get full data of user if provided, otherwise will
+     * indicate as create new user
      */
-    public UserDetail() {
+    public UserDetailDialog(java.awt.Frame owner, ManageUsersController controller, Long userId) {
+        super(owner, true);
+        this.controller = Objects.requireNonNull(controller);
         initComponents();
+        controller.selectUser(userId);
+    }
+
+    /**
+     * Creates new form UserDetail
+     *
+     * @param owner Usually JDialog
+     * @param controller to communicate with database, this must not be null
+     * @param userId to get full data of user if provided, otherwise will
+     * indicate as create new user
+     */
+    public UserDetailDialog(java.awt.Dialog owner, ManageUsersController controller, Long userId) {
+        super(owner, true);
+        this.controller = Objects.requireNonNull(controller);
+        initComponents();
+        controller.selectUser(userId);
+    }
+
+    @Override
+    public void dispose() {
+        // Unselect user from controller
+        controller.selectUser(null);
+        super.dispose(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 
     /**
@@ -44,7 +79,9 @@ public class UserDetail extends javax.swing.JFrame {
         jPasswordField1 = new javax.swing.JPasswordField();
         jPasswordField2 = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(controller.getUser() != null ? "Edit User Data" : "Create New User");
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(51, 102, 255));
 
@@ -170,48 +207,15 @@ public class UserDetail extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
         );
 
+        getAccessibleContext().setAccessibleName(controller.getUser() != null ? "Edit User Data" : "Create New User");
+
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserDetail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserDetail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserDetail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserDetail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new UserDetail().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
