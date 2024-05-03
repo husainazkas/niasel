@@ -26,8 +26,8 @@ public class UserDetailDialog extends javax.swing.JDialog {
     public UserDetailDialog(java.awt.Frame owner, ManageUsersController controller, Long userId) {
         super(owner, true);
         this.controller = Objects.requireNonNull(controller);
-        initComponents();
         controller.selectUser(userId);
+        initComponents();
     }
 
     /**
@@ -41,8 +41,8 @@ public class UserDetailDialog extends javax.swing.JDialog {
     public UserDetailDialog(java.awt.Dialog owner, ManageUsersController controller, Long userId) {
         super(owner, true);
         this.controller = Objects.requireNonNull(controller);
-        initComponents();
         controller.selectUser(userId);
+        initComponents();
     }
 
     @Override
