@@ -21,4 +21,8 @@ public class LoginFailureException extends Exception {
     public static LoginFailureException invalidUsernameOrPassword() {
         return new LoginFailureException("Invalid username or password");
     }
+
+    public static LoginFailureException userIsInactive() {
+        return new LoginFailureException("User is inactive, you have to contact an administrator to get login");
+    }
 }

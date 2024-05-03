@@ -45,7 +45,14 @@ public class AuthController extends BaseController {
                 throw LoginFailureException.invalidUsernameOrPassword();
             }
 
-            currentUser = Optional.of(users.get(0));
+            User user = users.get(0);
+            if (user.getIsDeleted()) {
+                throw LoginFailureException.userNotFound();
+            } else if (!user.getIsActive()) {
+                throw LoginFailureException.userIsInactive();
+            }
+
+            currentUser = Optional.of(user);
         } finally {
             isSubmitting = false;
         }
