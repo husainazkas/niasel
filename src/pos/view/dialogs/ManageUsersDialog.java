@@ -42,7 +42,7 @@ public class ManageUsersDialog extends javax.swing.JDialog {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        newUserButton = new javax.swing.JToggleButton();
+        newUserButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -164,6 +164,6 @@ public class ManageUsersDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JToggleButton newUserButton;
+    private javax.swing.JButton newUserButton;
     // End of variables declaration//GEN-END:variables
 }
