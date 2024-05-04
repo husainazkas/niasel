@@ -11,13 +11,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import org.apache.commons.codec.digest.DigestUtils;
 import pos.model.Role;
 import pos.model.User;
 
@@ -95,14 +95,21 @@ public class ManageUsersController extends BaseController {
         }
     }
 
-    public void deleteUser() {
+    public void deleteUser(User currentUser) {
+        currentUser = Objects.requireNonNull(currentUser);
+
         try (final EntityManager em = emf.createEntityManager()) {
-            em.remove(selectedUser.orElseThrow());
-            em.flush();
-            em.clear();
+            User user = selectedUser.orElseThrow();
+
+            em.getTransaction().begin();
+            em.createQuery("UPDATE User u SET u.isDeleted = true, u.updatedBy = :userId WHERE u.id = :id")
+                    .setParameter("id", user.getId())
+                    .setParameter("userId", currentUser.getId())
+                    .executeUpdate();
+            em.getTransaction().commit();
 
             markNeedsRebuild = true;
-        } catch (NoSuchElementException ex) {
+        } catch (Exception ex) {
         }
     }
 
@@ -128,54 +135,51 @@ public class ManageUsersController extends BaseController {
 
         try (final EntityManager em = emf.createEntityManager()) {
             User user = selectedUser.orElse(null);
-            Long id = null;
-
-            StringBuilder nativeQuery = new StringBuilder();
-            if (user != null) {
-                id = user.getId();
-                nativeQuery.append("UPDATE master_user SET ");
-
-                if (!user.getFirstName().equals(firstName)) {
-                    nativeQuery.append("first_name = :firstName, ");
-                }
-                if (!user.getLastName().equals(lastName)) {
-                    nativeQuery.append("last_name = :lastName, ");
-                }
-                if (isUpdatePassword) {
-                    nativeQuery.append("password = :password, ");
-                }
-                if (!user.getRoleId().equals(roleId)) {
-                    nativeQuery.append("role_id = :roleId, ");
-                }
-                if (user.getIsActive() != isActive) {
-                    nativeQuery.append("is_active = :isActive, ");
-                }
-
-                nativeQuery.append("updated_by = :userId ");
-                nativeQuery.append("WHERE id = :id");
-            } else {
-                nativeQuery.append("INSERT INTO master_user ");
-                nativeQuery.append("(first_name, last_name, username, password, role_id, is_active, updated_by, created_by) ");
-                nativeQuery.append("VALUES (:firstName, :lastName, :username, :password, :roleId, :isActive, :userId, :userId)");
-            }
 
             em.getTransaction().begin();
+            Query query;
+            if (user != null) {
+                StringBuilder raw = new StringBuilder();
+                raw.append("UPDATE master_user SET ");
 
-            Query query = em.createNativeQuery(nativeQuery.toString());
-            query.setParameter("firstName", firstName);
-            query.setParameter("lastName", lastName);
-            query.setParameter("username", username);
-            query.setParameter("password", password);
-            query.setParameter("roleId", roleId);
-            query.setParameter("isActive", isActive);
-            query.setParameter("userId", currentUser.getId());
+                if (!user.getFirstName().equals(firstName)) {
+                    raw.append("first_name = :firstName, ".replace(":firstName", "\"" + firstName + "\""));
+                }
+                if (!user.getLastName().equals(lastName)) {
+                    raw.append("last_name = :lastName, ".replace(":lastName", "\"" + lastName + "\""));
+                }
+                if (isUpdatePassword) {
+                    raw.append("password = :password, ".replace(":password", "\"" + DigestUtils.sha1Hex(password) + "\""));
+                }
+                if (!user.getRoleId().equals(roleId)) {
+                    raw.append("role_id = :roleId, ".replace(":roleId", String.valueOf(roleId)));
+                }
+                if (user.getIsActive() != isActive) {
+                    raw.append("is_active = :isActive, ".replace(":isActive", isActive ? "1" : "0"));
+                }
 
-            if (id != null) {
-                query.setParameter("id", id);
+                raw.append("updated_by = :userId ");
+                raw.append("WHERE id = :id");
+
+                query = em.createNativeQuery(raw.toString());
+                query.setParameter("id", user.getId());
+            } else {
+                StringBuilder raw = new StringBuilder();
+                raw.append("INSERT INTO master_user ");
+                raw.append("(first_name, last_name, username, password, role_id, is_active, updated_by, created_by) ");
+                raw.append("VALUES (:firstName, :lastName, :username, :password, :roleId, :isActive, :userId, :userId)");
+
+                query = em.createNativeQuery(raw.toString());
+                query.setParameter("firstName", firstName);
+                query.setParameter("lastName", lastName);
+                query.setParameter("username", DigestUtils.sha1Hex(username));
+                query.setParameter("password", DigestUtils.sha1Hex(password));
+                query.setParameter("roleId", roleId);
+                query.setParameter("isActive", isActive);
             }
 
+            query.setParameter("userId", currentUser.getId());
             query.executeUpdate();
-
             em.getTransaction().commit();
         }
 

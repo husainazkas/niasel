@@ -6,8 +6,6 @@ package pos.view.dialogs;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import pos.App;
 import pos.controller.ManageUsersController;
@@ -311,7 +309,22 @@ public class UserDetailDialog extends javax.swing.JDialog {
             dispose();
             return;
         }
-        controller.deleteUser();
+
+        int result = JOptionPane.showConfirmDialog(this, "Are you sure to delete this user? This cannot be undone", "Deleting User", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (result == 2) {
+            return;
+        }
+
+        User user;
+        try {
+            user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+        } catch (InstanceNotFoundException | NoSuchElementException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Deleting Failed", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        controller.deleteUser(user);
+
+        dispose();
     }//GEN-LAST:event_negativeButtonActionPerformed
 
     private void positiveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_positiveButtonActionPerformed
