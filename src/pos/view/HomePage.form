@@ -345,7 +345,7 @@
                   </Group>
                   <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jTextField6" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextField6" alignment="3" max="32767" attributes="0"/>
                       <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
@@ -425,7 +425,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField6">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="final CustomDocumentFilter numberFilter = new CustomDocumentFilter();&#xa;numberFilter.setIsMustNumber(true);&#xa;numberFilter.setIsCanEmpty(true);&#xa;numberFilter.setMaxLength(11);"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="final CustomDocumentFilter numberFilter = new CustomDocumentFilter();&#xa;numberFilter.setIsMustNumber(true);&#xa;numberFilter.setIsCanEmpty(true);&#xa;numberFilter.setMaxLength(9);"/>
             <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="final PlainDocument docField6 = (PlainDocument) jTextField6.getDocument();&#xa;docField6.setDocumentFilter(numberFilter);"/>
           </AuxValues>
         </Component>
