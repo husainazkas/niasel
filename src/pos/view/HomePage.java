@@ -91,7 +91,7 @@ public class HomePage extends javax.swing.JFrame {
         final CustomDocumentFilter numberFilter = new CustomDocumentFilter();
         numberFilter.setIsMustNumber(true);
         numberFilter.setIsCanEmpty(true);
-        numberFilter.setMaxLength(11);
+        numberFilter.setMaxLength(9);
         jTextField7 = new javax.swing.JTextField();
         jTextField8 = new javax.swing.JTextField();
         jTextField9 = new javax.swing.JTextField();
@@ -367,7 +367,7 @@ public class HomePage extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField6)
                     .addComponent(jLabel6))
                 .addGap(30, 30, 30)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
