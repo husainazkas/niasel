@@ -310,11 +310,6 @@ public class UserDetailDialog extends javax.swing.JDialog {
             return;
         }
 
-        int result = JOptionPane.showConfirmDialog(this, "Are you sure to delete this user? This cannot be undone", "Deleting User", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (result == 2) {
-            return;
-        }
-
         User user;
         try {
             user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
@@ -322,6 +317,17 @@ public class UserDetailDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Deleting Failed", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        if (Objects.equals(user.getId(), Long.valueOf(controller.getUserId(null)))) {
+            dispose();
+            return;
+        }
+
+        int result = JOptionPane.showConfirmDialog(this, "Are you sure to delete this user? This cannot be undone", "Deleting User", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (result == 2) {
+            return;
+        }
+
         controller.deleteUser(user);
 
         dispose();
@@ -404,6 +410,19 @@ public class UserDetailDialog extends javax.swing.JDialog {
             createdAtText.setText(": " + controller.getUserCreatedAt(null));
 
             negativeButton.setText("Delete");
+
+            User user;
+            try {
+                user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+            } catch (InstanceNotFoundException | NoSuchElementException ex) {
+                return;
+            }
+
+            if (Objects.equals(user.getId(), Long.valueOf(controller.getUserId(null)))) {
+                roleDropdown.setEnabled(false);
+                statusCheckBox.setEnabled(false);
+                negativeButton.setText("Cancel");
+            }
         } else {
             jLabel7.setVisible(false);
             jLabel8.setVisible(false);
@@ -412,6 +431,7 @@ public class UserDetailDialog extends javax.swing.JDialog {
 
             negativeButton.setText("Cancel");
         }
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
