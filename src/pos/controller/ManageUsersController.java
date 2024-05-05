@@ -51,7 +51,7 @@ public class ManageUsersController extends BaseController {
             users = queryUser.getResultList();
             roles = queryRole.getResultList();
         } catch (Exception ex) {
-            Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, ex.getMessage());
+            Logger.getLogger(ManageUsersController.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
 
         DefaultTableModel table = (DefaultTableModel) tableModel;
