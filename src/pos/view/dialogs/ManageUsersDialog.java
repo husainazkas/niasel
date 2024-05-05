@@ -44,6 +44,7 @@ public class ManageUsersDialog extends javax.swing.JDialog {
         jTable1 = new javax.swing.JTable();
         newUserButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        manageRoleButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Manage Users");
@@ -117,6 +118,13 @@ public class ManageUsersDialog extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel2.setText("MANAGE USERS");
 
+        manageRoleButton.setText("Manage Role");
+        manageRoleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageRoleButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -127,6 +135,8 @@ public class ManageUsersDialog extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(manageRoleButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(newUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 616, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34))
@@ -137,7 +147,8 @@ public class ManageUsersDialog extends javax.swing.JDialog {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(newUserButton)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(manageRoleButton))
                 .addGap(12, 12, 12)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(40, Short.MAX_VALUE))
@@ -160,10 +171,17 @@ public class ManageUsersDialog extends javax.swing.JDialog {
         controller.loadUsers(jTable1.getModel());
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void manageRoleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageRoleButtonActionPerformed
+        ManageRolesDialog dialog = new ManageRolesDialog(this);
+        dialog.setWhenComplete(t -> controller.loadUsers(jTable1.getModel(), t));
+        dialog.setVisible(true);
+    }//GEN-LAST:event_manageRoleButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton manageRoleButton;
     private javax.swing.JButton newUserButton;
     // End of variables declaration//GEN-END:variables
 }

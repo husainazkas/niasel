@@ -35,12 +35,26 @@ public class ManageUsersController extends BaseController {
     private final DateFormat dateFormat = new SimpleDateFormat();
 
     /**
+     * This equivalent with
+     * {@link loadUsers(TableModel tableModel, boolean forceRebuild)} but
+     * forceRebuild will be false
      *
      * @param tableModel must be provided from
      * {@code javax.swing.JTable.getModel()}
      */
     public void loadUsers(TableModel tableModel) {
-        if (!markNeedsRebuild) {
+        loadUsers(tableModel, false);
+    }
+
+    /**
+     *
+     * @param tableModel must be provided from
+     * {@code javax.swing.JTable.getModel()}
+     * @param forceRebuild a flag for force rebuild, this will ignore
+     * {@link markNeedsRebuild} state if set to true
+     */
+    public void loadUsers(TableModel tableModel, boolean forceRebuild) {
+        if (!markNeedsRebuild && !forceRebuild) {
             return;
         }
 
