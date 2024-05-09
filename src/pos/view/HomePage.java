@@ -101,6 +101,7 @@ public class HomePage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Point of Sales | Home");
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/res/images/icon.png")).getImage());
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(51, 153, 255));
