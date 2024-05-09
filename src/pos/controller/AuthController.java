@@ -36,7 +36,7 @@ public class AuthController extends BaseController {
         final String encodedPass = DigestUtils.sha1Hex(password);
 
         try (final EntityManager em = emf.createEntityManager()) {
-            Query query = em.createNativeQuery("Select * FROM master_user e WHERE e.username = :username AND e.password = :password", User.class);
+            Query query = em.createNativeQuery("SELECT * FROM master_user e WHERE e.username = :username AND e.password = :password", User.class);
             query.setParameter("username", encodedUsername);
             query.setParameter("password", encodedPass);
 
@@ -45,7 +45,14 @@ public class AuthController extends BaseController {
                 throw LoginFailureException.invalidUsernameOrPassword();
             }
 
-            currentUser = Optional.of(users.get(0));
+            User user = users.get(0);
+            if (user.getIsDeleted()) {
+                throw LoginFailureException.userNotFound();
+            } else if (!user.getIsActive()) {
+                throw LoginFailureException.userIsInactive();
+            }
+
+            currentUser = Optional.of(user);
         } finally {
             isSubmitting = false;
         }
