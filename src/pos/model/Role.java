@@ -7,6 +7,7 @@ package pos.model;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  *
@@ -109,46 +110,51 @@ public class Role implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        hash += (name != null ? name.hashCode() : 0);
-        hash += (isActive != null ? isActive.hashCode() : 0);
-        hash += (isDeleted != null ? isDeleted.hashCode() : 0);
-        hash += (updatedAt != null ? updatedAt.hashCode() : 0);
-        hash += (updatedBy != null ? updatedBy.hashCode() : 0);
-        hash += (createdAt != null ? createdAt.hashCode() : 0);
-        hash += (createdBy != null ? createdBy.hashCode() : 0);
+        hash += Objects.hashCode(id);
+        hash += Objects.hashCode(name);
+        hash += Objects.hashCode(isActive);
+        hash += Objects.hashCode(isDeleted);
+        hash += Objects.hashCode(updatedAt);
+        hash += Objects.hashCode(updatedBy);
+        hash += Objects.hashCode(createdAt);
+        hash += Objects.hashCode(createdBy);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Role)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Role other = (Role) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
-        if ((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name))) {
+        final Role other = (Role) obj;
+        if (!Objects.equals(this.name, other.name)) {
             return false;
         }
-        if ((this.isActive == null && other.isActive != null) || (this.isActive != null && !this.isActive.equals(other.isActive))) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if ((this.isDeleted == null && other.isDeleted != null) || (this.isDeleted != null && !this.isDeleted.equals(other.isDeleted))) {
+        if (!Objects.equals(this.isActive, other.isActive)) {
             return false;
         }
-        if ((this.updatedAt == null && other.updatedAt != null) || (this.updatedAt != null && !this.updatedAt.equals(other.updatedAt))) {
+        if (!Objects.equals(this.isDeleted, other.isDeleted)) {
             return false;
         }
-        if ((this.updatedBy == null && other.updatedBy != null) || (this.updatedBy != null && !this.updatedBy.equals(other.updatedBy))) {
+        if (!Objects.equals(this.updatedAt, other.updatedAt)) {
             return false;
         }
-        if ((this.createdAt == null && other.createdAt != null) || (this.createdAt != null && !this.createdAt.equals(other.createdAt))) {
+        if (!Objects.equals(this.updatedBy, other.updatedBy)) {
             return false;
         }
-        return !((this.createdBy == null && other.createdBy != null) || (this.createdBy != null && !this.createdBy.equals(other.createdBy)));
+        if (!Objects.equals(this.createdAt, other.createdAt)) {
+            return false;
+        }
+        return Objects.equals(this.createdBy, other.createdBy);
     }
 
     @Override

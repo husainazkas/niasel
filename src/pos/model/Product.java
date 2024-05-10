@@ -7,6 +7,7 @@ package pos.model;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  *
@@ -142,58 +143,63 @@ public class Product implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        hash += (barcodeId != null ? barcodeId.hashCode() : 0);
-        hash += (name != null ? name.hashCode() : 0);
-        hash += (price != null ? price.hashCode() : 0);
-        hash += (stock != null ? stock.hashCode() : 0);
-        hash += (brand != null ? brand.hashCode() : 0);
-        hash += (isDeleted != null ? isDeleted.hashCode() : 0);
-        hash += (updatedAt != null ? updatedAt.hashCode() : 0);
-        hash += (updatedBy != null ? updatedBy.hashCode() : 0);
-        hash += (createdAt != null ? createdAt.hashCode() : 0);
-        hash += (createdBy != null ? createdBy.hashCode() : 0);
+        hash += Objects.hashCode(id);
+        hash += Objects.hashCode(barcodeId);
+        hash += Objects.hashCode(name);
+        hash += Objects.hashCode(price);
+        hash += Objects.hashCode(stock);
+        hash += Objects.hashCode(brand);
+        hash += Objects.hashCode(isDeleted);
+        hash += Objects.hashCode(updatedAt);
+        hash += Objects.hashCode(updatedBy);
+        hash += Objects.hashCode(createdAt);
+        hash += Objects.hashCode(createdBy);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Product)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Product other = (Product) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
-        if ((this.barcodeId == null && other.barcodeId != null) || (this.barcodeId != null && !this.barcodeId.equals(other.barcodeId))) {
+        final Product other = (Product) obj;
+        if (!Objects.equals(this.barcodeId, other.barcodeId)) {
             return false;
         }
-        if ((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name))) {
+        if (!Objects.equals(this.name, other.name)) {
             return false;
         }
-        if ((this.price == null && other.price != null) || (this.price != null && !this.price.equals(other.price))) {
+        if (!Objects.equals(this.brand, other.brand)) {
             return false;
         }
-        if ((this.stock == null && other.stock != null) || (this.stock != null && !this.stock.equals(other.stock))) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if ((this.brand == null && other.brand != null) || (this.brand != null && !this.brand.equals(other.brand))) {
+        if (!Objects.equals(this.price, other.price)) {
             return false;
         }
-        if ((this.isDeleted == null && other.isDeleted != null) || (this.isDeleted != null && !this.isDeleted.equals(other.isDeleted))) {
+        if (!Objects.equals(this.stock, other.stock)) {
             return false;
         }
-        if ((this.updatedAt == null && other.updatedAt != null) || (this.updatedAt != null && !this.updatedAt.equals(other.updatedAt))) {
+        if (!Objects.equals(this.isDeleted, other.isDeleted)) {
             return false;
         }
-        if ((this.updatedBy == null && other.updatedBy != null) || (this.updatedBy != null && !this.updatedBy.equals(other.updatedBy))) {
+        if (!Objects.equals(this.updatedAt, other.updatedAt)) {
             return false;
         }
-        if ((this.createdAt == null && other.createdAt != null) || (this.createdAt != null && !this.createdAt.equals(other.createdAt))) {
+        if (!Objects.equals(this.updatedBy, other.updatedBy)) {
             return false;
         }
-        return !((this.createdBy == null && other.createdBy != null) || (this.createdBy != null && !this.createdBy.equals(other.createdBy)));
+        if (!Objects.equals(this.createdAt, other.createdAt)) {
+            return false;
+        }
+        return Objects.equals(this.createdBy, other.createdBy);
     }
 
     @Override
