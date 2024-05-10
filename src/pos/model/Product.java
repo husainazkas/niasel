@@ -43,14 +43,16 @@ public class Product implements Serializable {
     @Column(name = "updated_at", insertable = false, updatable = false)
     private Date updatedAt;
 
-    @Column(name = "updated_by")
-    private Long updatedBy;
+    @OneToOne
+    @JoinColumn(name = "updated_by")
+    private User updatedBy;
 
     @Column(name = "created_at", insertable = false, updatable = false)
     private Date createdAt;
 
-    @Column(name = "created_by", updatable = false)
-    private Long createdBy;
+    @OneToOne
+    @JoinColumn(name = "created_by", updatable = false)
+    private User createdBy;
 
     public Long getId() {
         return id;
@@ -116,11 +118,11 @@ public class Product implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public Long getUpdatedBy() {
+    public User getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(Long updatedBy) {
+    public void setUpdatedBy(User updatedBy) {
         this.updatedBy = updatedBy;
     }
 
@@ -132,11 +134,11 @@ public class Product implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public Long getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Long createdBy) {
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
 

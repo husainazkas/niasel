@@ -96,7 +96,7 @@ public class ProductController extends BaseController {
                 product.setPrice(Long.valueOf(price));
                 product.setStock(Integer.valueOf(stock));
                 product.setBrand(brand);
-                product.setUpdatedBy(user.getId());
+                product.setUpdatedBy(user);
                 em.merge(product);
             } else {
                 product = new Product();
@@ -105,8 +105,8 @@ public class ProductController extends BaseController {
                 product.setPrice(Long.valueOf(price));
                 product.setStock(Integer.valueOf(stock));
                 product.setBrand(brand);
-                product.setUpdatedBy(user.getId());
-                product.setCreatedBy(user.getId());
+                product.setUpdatedBy(user);
+                product.setCreatedBy(user);
                 em.persist(product);
             }
 
@@ -123,7 +123,7 @@ public class ProductController extends BaseController {
             em.getTransaction().begin();
 
             product.setIsDeleted(true);
-            product.setUpdatedBy(user.getId());
+            product.setUpdatedBy(user);
             em.merge(product);
 
             em.getTransaction().commit();
