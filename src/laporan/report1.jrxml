@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a60352ce-fbe3-4d24-ba03-6d23316e34c1">
+	<property name="ireport.zoom" value="0.9075000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="ccb3956c-5687-4491-9093-23b74ff41ff5"/>
+	<subDataset name="Table Dataset 2" uuid="7e847f62-ec7d-4f5d-b96c-c6a6210ae7c2"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT*FROM pos.master_user]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="97" splitType="Stretch">
+			<image>
+				<reportElement x="-18" y="3" width="135" height="91" uuid="aa659ff8-1c41-48fe-8da0-bd5b86a3790c"/>
+				<imageExpression><![CDATA["C:\\Users\\nurman\\Downloads\\logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="187" y="3" width="243" height="30" uuid="8826707b-484b-411c-9e2d-cf450bbedaaa"/>
+				<textElement textAlignment="Center">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PT Supra Boga Lestari Tbk]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="33" width="438" height="61" uuid="539cdab7-532f-4c29-80f5-8ea7d0eae8ce"/>
+				<textElement textAlignment="Center">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Jl. Sultan Iskandar Muda No.21 1, RT.1/RW.16, Pd. Pinang, Kec. Kby. Lama, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12310]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="16" width="555" height="1" uuid="8ea1dd29-0f30-45b5-8e85-eb93eeebb6a1"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="76" splitType="Stretch">
+			<staticText>
+				<reportElement x="205" y="21" width="145" height="34" uuid="8404e6c0-d59f-44a6-bcbb-5b1e444d2e1b"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[REPORT USERS]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="439" y="56" width="116" height="20" uuid="a8573293-28eb-4064-a131-efedd810f822"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="130" splitType="Stretch">
+			<elementGroup>
+				<componentElement>
+					<reportElement key="table 2" style="table 2" x="67" y="23" width="421" height="106" uuid="15d9fc52-5824-401e-862c-ad40b026387d"/>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="Table Dataset 2" uuid="f2b35f83-56ec-42bd-8dba-97f2d409410b">
+							<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource(1)]]></dataSourceExpression>
+						</datasetRun>
+						<jr:column width="42" uuid="859f630b-f44b-4795-ab81-2bcc63df9b76">
+							<jr:tableHeader style="table 2_TH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="16" y="6" width="10" height="18" uuid="d32791f0-a3ee-4477-bbd9-c090c0820c63"/>
+									<textElement>
+										<font size="12" isBold="true"/>
+									</textElement>
+									<text><![CDATA[#]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:columnHeader style="table 2_CH" height="30" rowSpan="1"/>
+						</jr:column>
+						<jr:column width="90" uuid="f4ec208d-0acc-4dbd-85e0-d58e9c6ed73b">
+							<jr:tableHeader style="table 2_TH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="27" y="6" width="36" height="18" uuid="889359ea-6d53-46f7-b003-2ce2584299f9"/>
+									<textElement>
+										<font size="12" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Name]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:columnHeader style="table 2_CH" height="30" rowSpan="1"/>
+						</jr:column>
+						<jr:column width="90" uuid="6d6d59b2-34a1-433c-955b-ad118735381b">
+							<jr:tableHeader style="table 2_TH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="31" y="6" width="28" height="18" uuid="7798d8ed-d14d-44b2-adba-631cd8e23f13"/>
+									<textElement>
+										<font size="12" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Role]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:columnHeader style="table 2_CH" height="30" rowSpan="1"/>
+						</jr:column>
+						<jr:column width="114" uuid="01356bfa-d900-480c-8667-ad38331a0ad7">
+							<jr:tableHeader style="table 2_TH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="37" y="6" width="41" height="18" uuid="1f24cef4-8cf5-4203-9182-44ea7969fb4b"/>
+									<textElement>
+										<font size="12" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Status]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:columnHeader style="table 2_CH" height="30" rowSpan="1"/>
+						</jr:column>
+						<jr:column width="112" uuid="dd55e9c4-6d80-4d67-a767-602b2741e131">
+							<jr:tableHeader style="table 2_TH" height="30" rowSpan="1">
+								<elementGroup>
+									<staticText>
+										<reportElement x="31" y="6" width="51" height="18" uuid="d5798417-3e5c-4fbd-8e50-9640989c8f61"/>
+										<textElement>
+											<font size="12" isBold="true"/>
+										</textElement>
+										<text><![CDATA[Created]]></text>
+									</staticText>
+								</elementGroup>
+							</jr:tableHeader>
+							<jr:columnHeader style="table 2_CH" height="30" rowSpan="1"/>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+			</elementGroup>
+		</band>
+	</detail>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>
