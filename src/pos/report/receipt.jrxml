@@ -67,7 +67,7 @@ KEMANG]]></text>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="142" splitType="Stretch">
+		<band height="98" splitType="Stretch">
 			<staticText>
 				<reportElement x="173" y="0" width="206" height="94" uuid="22e432eb-ce2b-4a7f-bd06-660047fe4905"/>
 				<textElement textAlignment="Center">
@@ -82,7 +82,7 @@ Kembangan, Jakarta Barat, 1610]]></text>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch"/>
+		<band height="83" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
 		<band height="100" splitType="Stretch"/>
