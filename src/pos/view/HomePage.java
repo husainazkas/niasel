@@ -75,7 +75,8 @@ public class HomePage extends javax.swing.JFrame {
         purchaseButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("PointOfSales | Home");
+        setTitle("Point of Sales | Home");
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/res/images/icon.png")).getImage());
         setResizable(false);
 
         jLabel1.setText("Search");

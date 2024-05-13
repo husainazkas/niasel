@@ -97,6 +97,7 @@ public class ProductInventoryPage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Point of Sales | Product Inventory");
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/res/images/icon.png")).getImage());
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(51, 153, 255));
