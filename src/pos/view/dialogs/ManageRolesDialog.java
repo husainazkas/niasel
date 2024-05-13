@@ -207,9 +207,11 @@ public class ManageRolesDialog extends javax.swing.JDialog {
             return;
         }
 
-        String name = JOptionPane.showInputDialog(new javax.swing.JTextField(), "Add a new role");
-        controller.addRole(name, user);
-        controller.loadRoles(jTable1.getModel());
+        String name = JOptionPane.showInputDialog(new javax.swing.JTextField(), "What is role name?", "Add New Role", JOptionPane.QUESTION_MESSAGE);
+        if (name != null) {
+            controller.addRole(name, user);
+            controller.loadRoles(jTable1.getModel());
+        }
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void updateSelectionTable() {
