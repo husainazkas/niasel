@@ -4,8 +4,12 @@
  */
 package pos.view;
 
+import java.sql.*;
+import java.io.File;
 import pos.view.dialogs.ManageUsersDialog;
 import java.text.DateFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,9 +19,18 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.text.PlainDocument;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import pos.App;
 import pos.controller.AuthController;
 import pos.controller.ProductController;
@@ -195,6 +208,7 @@ public class HomePage extends javax.swing.JFrame {
         tableColumn.getColumn(1).setCellRenderer(leftRenderer);
         tableColumn.getColumn(5).sizeWidthToFit();
         jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTable1.setColumnSelectionAllowed(true);
         jTable1.setFillsViewportHeight(true);
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -531,7 +545,26 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_manageUserButtonActionPerformed
 
     private void PrintButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrintButton1ActionPerformed
-        // TODO add your handling code here:z
+        try {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            String jrxmlPath = "src/pos/report/ReportInventory.jrxml";
+            JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlPath);
+
+            // Param for title and description if need
+            // Prepare parameters
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("reporttitle", "PT Supra Boga Lestari Tbk");
+            parameters.put("keterangan", "Jl. Pesanggrahan No.2, RT.1/RW.7, Kembangan Sel., Kec. Kembangan, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11610");
+            JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, new JRTableModelDataSource(model));
+            JasperViewer.viewReport(print, false); // true == Exit on Close
+
+        } catch (JRException ex) {
+            ex.printStackTrace();
+        }
+
+//      
+//
+//        }
     }//GEN-LAST:event_PrintButton1ActionPerformed
 
     private void updateSelectionTable() {
