@@ -26,15 +26,18 @@ public class SalesOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String uuid;
 
     @Column(name = "total_price")
-    private Integer totalPrice;
+    private Long totalPrice;
 
-    private String note;
+    private Long cash;
+
+    @Column(name = "cash_change")
+    private Long cashChange;
 
     @Column(name = "created_at", insertable = false, updatable = false)
     private Date createdAt;
@@ -59,20 +62,28 @@ public class SalesOrder implements Serializable {
         this.uuid = uuid;
     }
 
-    public Integer getTotalPrice() {
+    public Long getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Integer totalPrice) {
+    public void setTotalPrice(Long totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public String getNote() {
-        return note;
+    public Long getCash() {
+        return cash;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setCash(Long cash) {
+        this.cash = cash;
+    }
+
+    public Long getCashChange() {
+        return cashChange;
+    }
+
+    public void setCashChange(Long cashChange) {
+        this.cashChange = cashChange;
     }
 
     public Date getCreatedAt() {
@@ -97,7 +108,8 @@ public class SalesOrder implements Serializable {
         hash += Objects.hashCode(id);
         hash += Objects.hashCode(uuid);
         hash += Objects.hashCode(totalPrice);
-        hash += Objects.hashCode(note);
+        hash += Objects.hashCode(cash);
+        hash += Objects.hashCode(cashChange);
         hash += Objects.hashCode(createdAt);
         hash += Objects.hashCode(createdBy);
         return hash;
@@ -118,7 +130,10 @@ public class SalesOrder implements Serializable {
         if (!Objects.equals(this.uuid, other.uuid)) {
             return false;
         }
-        if (!Objects.equals(this.note, other.note)) {
+        if (!Objects.equals(this.cash, other.cash)) {
+            return false;
+        }
+        if (!Objects.equals(this.cashChange, other.cashChange)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
@@ -135,7 +150,7 @@ public class SalesOrder implements Serializable {
 
     @Override
     public String toString() {
-        return "pos.model.SalesOrder[ id=" + id + ", uuid=" + uuid + ", totalPrice=" + totalPrice + ", note=" + note + ", createdAt=" + createdAt + ", createdBy=" + createdBy + " ]";
+        return "pos.model.SalesOrder[ id=" + id + ", uuid=" + uuid + ", totalPrice=" + totalPrice + ", cash=" + cash + ", cashChange=" + cashChange + ", createdAt=" + createdAt + ", createdBy=" + createdBy + " ]";
     }
 
 }

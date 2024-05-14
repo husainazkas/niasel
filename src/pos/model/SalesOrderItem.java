@@ -25,7 +25,7 @@ public class SalesOrderItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -38,7 +38,7 @@ public class SalesOrderItem implements Serializable {
 
     private Integer count;
 
-    private Integer price;
+    private Long price;
 
     public Long getId() {
         return id;
@@ -72,11 +72,11 @@ public class SalesOrderItem implements Serializable {
         this.count = count;
     }
 
-    public int getPrice() {
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 

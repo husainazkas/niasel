@@ -6,10 +6,13 @@ package pos.view;
 
 import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
@@ -23,7 +26,9 @@ import pos.controller.AuthController;
 import pos.controller.SalesController;
 import pos.exception.InstanceNotFoundException;
 import pos.model.Product;
+import pos.model.User;
 import pos.utils.CustomDocumentFilter;
+import pos.view.dialogs.CheckOutDialog;
 import pos.view.dialogs.ManageUsersDialog;
 
 /**
@@ -40,9 +45,7 @@ public class HomePage extends javax.swing.JFrame {
      */
     public HomePage() {
         initComponents();
-        controller.loadProducts(jTable1.getModel(), (index) -> {
-            System.out.println(index + " tapped");
-        });
+        controller.loadProducts(jTable1.getModel());
     }
 
     /**
@@ -304,6 +307,7 @@ public class HomePage extends javax.swing.JFrame {
                 total += (Long) jTable2.getValueAt(i, 3);
             }
             totalPriceText.setText("Rp " + numberFormat.format(total));
+            purchaseButton.setEnabled(jTable2.getRowCount() > 0);
         });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -313,6 +317,12 @@ public class HomePage extends javax.swing.JFrame {
         totalPriceText.setText("Rp 0");
 
         purchaseButton.setText("Check Out");
+        purchaseButton.setEnabled(false);
+        purchaseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                purchaseButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -427,7 +437,7 @@ public class HomePage extends javax.swing.JFrame {
             if (result != null) {
                 Integer count = Integer.valueOf(result);
                 if (count > 0) {
-                    Product product = controller.getSelectedProduct(table.getModel(), row);
+                    Product product = controller.getSelectedProduct(row);
                     controller.addProductToCart(product.getId(), count, true);
                     controller.loadCart(table.getModel());
                 }
@@ -439,11 +449,88 @@ public class HomePage extends javax.swing.JFrame {
         JTable table = (JTable) evt.getSource();
         int row = table.getSelectedRow();
         if (evt.getKeyCode() == KeyEvent.VK_BACK_SPACE && row != -1) {
-            Product product = controller.getSelectedProduct(table.getModel(), row);
+            Product product = controller.getSelectedProduct(row);
             controller.removeProductFromCart(product.getId());
             controller.loadCart(table.getModel());
         }
     }//GEN-LAST:event_jTable2KeyPressed
+
+    private void purchaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseButtonActionPerformed
+        User user;
+        try {
+            user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+        } catch (InstanceNotFoundException | NoSuchElementException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Operation Failed", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String priceStr = totalPriceText.getText().substring(3);
+        long price;
+        try {
+            price = numberFormat.parse(priceStr).longValue();
+        } catch (ParseException ex) {
+            Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+
+        Long cash = 0L;
+
+        while (cash < price) {
+            CheckOutDialog checkOut = new CheckOutDialog(this, priceStr);
+            checkOut.setVisible(true);
+
+            cash = Long.valueOf(checkOut.getValue().trim());
+        }
+
+        long change = cash - price;
+
+        try {
+            // Automatic print bill with jasper
+            controller.createTransaction(user, price, cash, change);
+        } catch (Exception ex) {
+            Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Operation Failed", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        JLabel changeText = new JLabel("Change :");
+        JLabel changeValueText = new JLabel("Rp " + numberFormat.format(change));
+
+        changeText.setFont(new java.awt.Font("Segoe UI", 1, 18));
+        changeValueText.setFont(changeText.getFont());
+
+        JPanel panel = new JPanel();
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(panel);
+        panel.setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createSequentialGroup()
+                        .addComponent(changeText)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(changeValueText)
+        );
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addComponent(changeText)
+                .addComponent(changeValueText)
+        );
+
+        String[] options = {"Re-Print", "Done"};
+        int finishing = JOptionPane.showOptionDialog(
+                this,
+                panel,
+                "Payment Successful",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                options,
+                null
+        );
+
+        if (finishing == 0) {
+            // Re-print bill with jasper
+        }
+
+        controller.clearCart(jTable2.getModel());
+    }//GEN-LAST:event_purchaseButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addToCartButton;

@@ -9,14 +9,19 @@ import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.function.Consumer;
+import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import pos.model.Product;
+import pos.model.SalesOrder;
+import pos.model.SalesOrderItem;
+import pos.model.User;
 
 /**
  *
@@ -32,9 +37,8 @@ public class SalesController extends BaseController {
      *
      * @param tableModel must be provided from
      * {@code javax.swing.JTable.getModel()}
-     * @param onActionPressed fire an action when button pressed, contains index
      */
-    public void loadProducts(TableModel tableModel, Consumer<Integer> onActionPressed) {
+    public void loadProducts(TableModel tableModel) {
         try (final EntityManager em = emf.createEntityManager()) {
             TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.isDeleted = false", Product.class);
             products = query.getResultList();
@@ -98,9 +102,13 @@ public class SalesController extends BaseController {
             };
             table.addRow(row);
         }
-        System.out.println("nganuuu");
-        System.out.println("selected: " + selected.length);
-        System.out.println("table: " + table.getDataVector());
+    }
+
+    public void clearCart(TableModel tableModel) {
+        DefaultTableModel table = (DefaultTableModel) tableModel;
+        table.setRowCount(0);
+
+        selectedProduct.clear();
     }
 
     /**
@@ -124,12 +132,11 @@ public class SalesController extends BaseController {
 
     /**
      *
-     * @param model must be provided from {@code javax.swing.JTable.getModel()}
      * @param index must be provided from
      * {@code javax.swing.JTable.getSelectedRow()}
      * @return the {@code product}, if present, otherwise {@code null}
      */
-    public Product getSelectedProduct(TableModel model, int index) {
+    public Product getSelectedProduct(int index) {
         if (index == -1) {
             return null;
         }
@@ -179,4 +186,36 @@ public class SalesController extends BaseController {
         }
     }
 
+    public void createTransaction(User user, long totalPrice, long cash, long cashChange) throws Exception {
+        SalesOrder order = new SalesOrder();
+        order.setUuid(UUID.randomUUID().toString());
+        order.setTotalPrice(totalPrice);
+        order.setCash(cash);
+        order.setCashChange(cashChange);
+        order.setCreatedBy(user);
+
+        try (final EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            
+            em.persist(order);
+
+            for (Entry<Long, Integer> entry : selectedProduct.entrySet()) {
+                Product product = products.stream()
+                        .filter(e -> Objects.equals(e.getId(), entry.getKey()))
+                        .findFirst()
+                        .orElse(null);
+                if (product != null) {
+                    SalesOrderItem orderItem = new SalesOrderItem();
+                    orderItem.setOrder(order);
+                    orderItem.setProduct(product);
+                    orderItem.setCount(entry.getValue());
+                    orderItem.setPrice(product.getPrice() * entry.getValue());
+
+                    em.persist(orderItem);
+                }
+            }
+
+            em.getTransaction().commit();
+        }
+    }
 }
