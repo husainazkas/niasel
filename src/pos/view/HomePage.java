@@ -5,7 +5,6 @@
 package pos.view;
 
 import java.awt.event.KeyEvent;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -78,6 +77,8 @@ public class HomePage extends javax.swing.JFrame {
         setTitle("Point of Sales | Home");
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/res/images/icon.png")).getImage());
         setResizable(false);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Available Products"));
 
         jLabel1.setText("Search");
 
@@ -247,6 +248,8 @@ public class HomePage extends javax.swing.JFrame {
                         .addGap(19, 19, 19))))
         );
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Cart"));
+
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -303,10 +306,10 @@ public class HomePage extends javax.swing.JFrame {
             totalPriceText.setText("Rp " + numberFormat.format(total));
         });
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setText("Grand Total :");
 
-        totalPriceText.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        totalPriceText.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         totalPriceText.setText("Rp 0");
 
         purchaseButton.setText("Check Out");
@@ -332,13 +335,15 @@ public class HomePage extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
                 .addGap(2, 2, 2)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(totalPriceText))
                 .addGap(16, 16, 16)
-                .addComponent(purchaseButton))
+                .addComponent(purchaseButton)
+                .addGap(16, 16, 16))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
