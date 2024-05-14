@@ -58,7 +58,7 @@ public class SalesController extends BaseController {
         }
     }
 
-    public void addProductToBasket(Long id, int count, boolean replace) {
+    public void addProductToCart(Long id, int count, boolean replace) {
         if (id != null) {
             Integer currentCount = selectedProduct.get(id);
             if (!replace && currentCount != null) {
@@ -69,13 +69,13 @@ public class SalesController extends BaseController {
         }
     }
 
-    public void removeProductFromBasket(Long id) {
+    public void removeProductFromCart(Long id) {
         if (id != null) {
             selectedProduct.remove(id);
         }
     }
 
-    public void loadBasket(TableModel tableModel) {
+    public void loadCart(TableModel tableModel) {
         DefaultTableModel table = (DefaultTableModel) tableModel;
         table.setRowCount(0);
 

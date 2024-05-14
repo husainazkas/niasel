@@ -59,7 +59,7 @@ public class HomePage extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        addToBasketButton = new javax.swing.JButton();
+        addToCartButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         logoutButton = new javax.swing.JButton();
@@ -136,7 +136,7 @@ public class HomePage extends javax.swing.JFrame {
         index1Column.setCellRenderer(centerRenderer);
 
         jTable1.getSelectionModel().addListSelectionListener(evt -> {
-            addToBasketButton.setEnabled(jTable1.getSelectedRow() != -1);
+            addToCartButton.setEnabled(jTable1.getSelectedRow() != -1);
         });
         jTable1.setFillsViewportHeight(true);
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -146,11 +146,11 @@ public class HomePage extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);
         }
 
-        addToBasketButton.setText("Add");
-        addToBasketButton.setEnabled(false);
-        addToBasketButton.addActionListener(new java.awt.event.ActionListener() {
+        addToCartButton.setText("Add");
+        addToCartButton.setEnabled(false);
+        addToCartButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addToBasketButtonActionPerformed(evt);
+                addToCartButtonActionPerformed(evt);
             }
         });
 
@@ -166,7 +166,7 @@ public class HomePage extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addToBasketButton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(addToCartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(24, 24, 24))
         );
@@ -177,7 +177,7 @@ public class HomePage extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addToBasketButton))
+                    .addComponent(addToCartButton))
                 .addGap(11, 11, 11)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
                 .addGap(24, 24, 24))
@@ -397,7 +397,7 @@ public class HomePage extends javax.swing.JFrame {
         new ProductInventoryPage().setVisible(true);
     }//GEN-LAST:event_manageProductButtonActionPerformed
 
-    private void addToBasketButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToBasketButtonActionPerformed
+    private void addToCartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToCartButtonActionPerformed
         CustomDocumentFilter numberFilter = new CustomDocumentFilter();
         JTextField input = new JTextField();
         PlainDocument docInput = (PlainDocument) input.getDocument();
@@ -408,11 +408,11 @@ public class HomePage extends javax.swing.JFrame {
             Integer count = Integer.valueOf(result);
             if (count > 0) {
                 Product product = controller.getProduct(jTable1.getModel(), jTable1.getSelectedRow());
-                controller.addProductToBasket(product.getId(), count, false);
-                controller.loadBasket(jTable2.getModel());
+                controller.addProductToCart(product.getId(), count, false);
+                controller.loadCart(jTable2.getModel());
             }
         }
-    }//GEN-LAST:event_addToBasketButtonActionPerformed
+    }//GEN-LAST:event_addToCartButtonActionPerformed
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
         JTable table = (JTable) evt.getSource();
@@ -428,8 +428,8 @@ public class HomePage extends javax.swing.JFrame {
                 Integer count = Integer.valueOf(result);
                 if (count > 0) {
                     Product product = controller.getSelectedProduct(table.getModel(), row);
-                    controller.addProductToBasket(product.getId(), count, true);
-                    controller.loadBasket(table.getModel());
+                    controller.addProductToCart(product.getId(), count, true);
+                    controller.loadCart(table.getModel());
                 }
             }
         }
@@ -440,13 +440,13 @@ public class HomePage extends javax.swing.JFrame {
         int row = table.getSelectedRow();
         if (evt.getKeyCode() == KeyEvent.VK_BACK_SPACE && row != -1) {
             Product product = controller.getSelectedProduct(table.getModel(), row);
-            controller.removeProductFromBasket(product.getId());
-            controller.loadBasket(table.getModel());
+            controller.removeProductFromCart(product.getId());
+            controller.loadCart(table.getModel());
         }
     }//GEN-LAST:event_jTable2KeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addToBasketButton;
+    private javax.swing.JButton addToCartButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
