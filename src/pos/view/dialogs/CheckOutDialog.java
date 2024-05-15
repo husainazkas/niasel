@@ -4,8 +4,18 @@
  */
 package pos.view.dialogs;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.PlainDocument;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 import pos.utils.CustomDocumentFilter;
 
 /**
@@ -27,7 +37,7 @@ public class CheckOutDialog extends javax.swing.JDialog {
         this.totalPrice = Objects.requireNonNull(totalPrice);
         initComponents();
     }
-    
+
     public String getValue() {
         return cashTextField.getText();
     }

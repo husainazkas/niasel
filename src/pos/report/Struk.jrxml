@@ -8,22 +8,20 @@
 	<parameter name="keterangan" class="java.lang.String"/>
 	<parameter name="struk" class="java.lang.String"/>
 	<field name="#" class="java.lang.String"/>
-	<field name="Full Name" class="java.lang.String"/>
-	<field name="Status" class="java.lang.String"/>
-	<field name="Role" class="java.lang.String"/>
-	<field name="Created" class="java.lang.String"/>
-	<field name="Last Update" class="java.lang.String"/>
+	<field name="Name" class="java.lang.String"/>
+	<field name="Quantity" class="java.lang.String"/>
+	<field name="Total" class="java.lang.String"/>
 	<background>
 		<band/>
 	</background>
 	<title>
-		<band height="160">
+		<band height="135">
 			<image>
 				<reportElement x="5" y="-12" width="128" height="110" uuid="6bd1bd9b-a954-4051-b538-cf4459a82e29"/>
 				<imageExpression><![CDATA["src/res/images/icon.png"]]></imageExpression>
 			</image>
 			<frame>
-				<reportElement mode="Opaque" x="0" y="153" width="555" height="2" backcolor="#333333" uuid="67fa54c9-8c5d-422e-b259-73eb1d24f9d4"/>
+				<reportElement mode="Opaque" x="0" y="112" width="555" height="2" backcolor="#333333" uuid="67fa54c9-8c5d-422e-b259-73eb1d24f9d4"/>
 			</frame>
 			<textField>
 				<reportElement x="132" y="11" width="423" height="32" forecolor="#333333" uuid="6106af68-52c8-4910-93d6-edf4efe292bb"/>
@@ -41,81 +39,70 @@
 			</textField>
 		</band>
 	</title>
-	<pageHeader>
-		<band height="35">
+	<columnHeader>
+		<band height="24">
 			<staticText>
-				<reportElement x="0" y="11" width="185" height="20" uuid="f2c02515-1e1f-47f6-b1cd-abf5a31f5eb4"/>
+				<reportElement x="0" y="0" width="72" height="20" uuid="f2c02515-1e1f-47f6-b1cd-abf5a31f5eb4"/>
 				<textElement>
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[#]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="80" y="11" width="175" height="20" uuid="d80d4d8c-52f8-413e-b394-086eadecd9c4"/>
+				<reportElement x="80" y="0" width="99" height="20" uuid="d80d4d8c-52f8-413e-b394-086eadecd9c4"/>
 				<textElement>
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Full Name]]></text>
+				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="216" y="11" width="195" height="20" uuid="d8767def-8cb0-428f-b1eb-6bf79f2d20a7"/>
+				<reportElement x="190" y="0" width="99" height="20" uuid="d8767def-8cb0-428f-b1eb-6bf79f2d20a7"/>
 				<textElement>
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Status]]></text>
+				<text><![CDATA[Quantity]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="328" y="11" width="195" height="20" uuid="d8767def-8cb0-428f-b1eb-6bf79f2d20a7"/>
+				<reportElement x="300" y="0" width="100" height="20" uuid="d8767def-8cb0-428f-b1eb-6bf79f2d20a7"/>
 				<textElement>
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Created]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="450" y="11" width="195" height="20" uuid="d8767def-8cb0-428f-b1eb-6bf79f2d20a7"/>
-				<textElement>
-					<font size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Last Update]]></text>
+				<text><![CDATA[Total]]></text>
 			</staticText>
 		</band>
-	</pageHeader>
+	</columnHeader>
 	<detail>
-		<band height="23">
+		<band height="21">
+			<textField>
+				<reportElement x="80" y="0" width="99" height="15" uuid="0c1ef45f-b877-4206-8e2f-a1b7fa8fb5e0"/>
+				<textFieldExpression><![CDATA[$F{Name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="190" y="0" width="99" height="15" uuid="2e3e49d1-3e4a-4321-9cfe-9e8a5d49c854"/>
+				<textFieldExpression><![CDATA[$F{Quantity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="0" width="99" height="15" uuid="2e3e49d1-3e4a-4321-9cfe-9e8a5d49c854"/>
+				<textFieldExpression><![CDATA[$F{Total}]]></textFieldExpression>
+			</textField>
 			<textField>
 				<reportElement x="0" y="0" width="72" height="15" uuid="b66c6495-fcb1-4f01-97c8-ca3c1a70ced6"/>
 				<textFieldExpression><![CDATA[$F{#}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="80" y="0" width="99" height="15" uuid="0c1ef45f-b877-4206-8e2f-a1b7fa8fb5e0"/>
-				<textFieldExpression><![CDATA[$F{Full Name}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="216" y="3" width="99" height="15" uuid="2e3e49d1-3e4a-4321-9cfe-9e8a5d49c854"/>
-				<textFieldExpression><![CDATA[$F{Status}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="329" y="3" width="99" height="15" uuid="2e3e49d1-3e4a-4321-9cfe-9e8a5d49c854"/>
-				<textFieldExpression><![CDATA[$F{Created}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="450" y="3" width="99" height="15" uuid="2e3e49d1-3e4a-4321-9cfe-9e8a5d49c854"/>
-				<textFieldExpression><![CDATA[$F{Last Update}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="115">
+		<band height="126">
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="442" y="10" width="100" height="20" uuid="83571d2d-c5ca-4396-977a-d3f5a67c99dc"/>
+				<reportElement x="440" y="10" width="100" height="20" uuid="9b2bce28-e8db-4eff-b27a-1e44d4406305"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="423" y="88" width="100" height="20" uuid="bdce0a94-a672-4a36-9060-8f3ff7bf88f9"/>
+				<reportElement x="421" y="88" width="100" height="20" uuid="a30dfa3f-f1ae-4f05-9709-b4ff651b7b3a"/>
 				<text><![CDATA[Bulton Sirajagukguk]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="385" y="10" width="43" height="20" uuid="a4408a5a-12d2-4fad-b732-1739a44ee8fa"/>
+				<reportElement x="383" y="10" width="43" height="20" uuid="6fa4cd13-8f05-47c3-9eb8-91e1e428e786"/>
 				<text><![CDATA[Jakarta, ]]></text>
 			</staticText>
 		</band>
