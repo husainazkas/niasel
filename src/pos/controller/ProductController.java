@@ -8,6 +8,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -40,27 +41,36 @@ public class ProductController extends BaseController {
         table.setRowCount(0);
         for (int i = 0; i < products.size(); i++) {
             Product p = products.get(i);
-            Object[] row = {Long.valueOf(String.valueOf(i + 1)), p.getId(), p.getBarcodeId(), p.getName(), p.getPrice(), p.getStock(), p.getBrand()};
+            Object[] row = {
+                Long.valueOf(String.valueOf(i + 1)),
+                p.getId(),
+                p.getBarcodeId(),
+                p.getName(),
+                p.getPrice(),
+                p.getStock(),
+                p.getBrand()
+            };
             table.addRow(row);
         }
     }
 
     /**
      *
+     * @param model must be provided from {@code javax.swing.JTable.getModel()}
      * @param index must be provided from
-     * {@code javax.swing.JTable.getSelectedRow()}, this may be null
+     * {@code javax.swing.JTable.getSelectedRow()}
      * @return the {@code product}, if present, otherwise {@code null}
      */
-    public Product getSelectedProduct(int index) {
+    public Product getSelectedProduct(TableModel model, int index) {
         if (index == -1) {
             return null;
         }
 
-        try {
-            return products.get(index);
-        } catch (IndexOutOfBoundsException ex) {
-            return null;
-        }
+        Long id = (Long) model.getValueAt(index, 1);
+        return products.stream()
+                .filter(e -> Objects.equals(e.getId(), id))
+                .findFirst()
+                .orElse(null);
     }
 
     public void filterBySearch(String text, TableModel tableModel) {
@@ -85,18 +95,18 @@ public class ProductController extends BaseController {
         }
     }
 
-    public void save(User user, int index, String barcodeId, String name, String price, String stock, String brand) {
+    public void save(User user, TableModel model, int index, String barcodeId, String name, String price, String stock, String brand) {
         try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
 
-            Product product = getSelectedProduct(index);
+            Product product = getSelectedProduct(model, index);
             if (product != null) {
                 product.setBarcodeId(barcodeId);
                 product.setName(name);
                 product.setPrice(Long.valueOf(price));
                 product.setStock(Integer.valueOf(stock));
                 product.setBrand(brand);
-                product.setUpdatedBy(user.getId());
+                product.setUpdatedBy(user);
                 em.merge(product);
             } else {
                 product = new Product();
@@ -105,8 +115,8 @@ public class ProductController extends BaseController {
                 product.setPrice(Long.valueOf(price));
                 product.setStock(Integer.valueOf(stock));
                 product.setBrand(brand);
-                product.setUpdatedBy(user.getId());
-                product.setCreatedBy(user.getId());
+                product.setUpdatedBy(user);
+                product.setCreatedBy(user);
                 em.persist(product);
             }
 
@@ -114,8 +124,8 @@ public class ProductController extends BaseController {
         }
     }
 
-    public void remove(User user, int index) {
-        Product product = getSelectedProduct(index);
+    public void remove(User user, TableModel model, int index) {
+        Product product = getSelectedProduct(model, index);
         if (product == null) {
             return;
         }
@@ -123,7 +133,7 @@ public class ProductController extends BaseController {
             em.getTransaction().begin();
 
             product.setIsDeleted(true);
-            product.setUpdatedBy(user.getId());
+            product.setUpdatedBy(user);
             em.merge(product);
 
             em.getTransaction().commit();

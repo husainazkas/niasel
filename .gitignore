@@ -23,3 +23,6 @@ plugin/
 
 # Sensitive info #
 src/META-INF/
+
+# Generated File On Runtime #
+*.jasper
