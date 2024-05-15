@@ -15,5 +15,14 @@ nb-configuration.xml
 *.war
 *.ear
 
+# Library Files #
+lib/
+
+# Plugin Files #
+plugin/
+
 # Sensitive info #
 src/META-INF/
+
+# Generated File On Runtime #
+*.jasper

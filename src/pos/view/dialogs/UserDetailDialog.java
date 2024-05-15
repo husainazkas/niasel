@@ -113,6 +113,11 @@ public class UserDetailDialog extends javax.swing.JDialog {
         roleDropdown.setModel(new javax.swing.DefaultComboBoxModel(controller.getRolesName()));
         roleDropdown.setMaximumSize(new java.awt.Dimension(160, 32767));
         roleDropdown.setMinimumSize(new java.awt.Dimension(160, 22));
+        roleDropdown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roleDropdownActionPerformed(evt);
+            }
+        });
 
         positiveButton.setText("Save");
         positiveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -393,6 +398,10 @@ public class UserDetailDialog extends javax.swing.JDialog {
         JOptionPane.showMessageDialog(this, "User data saved successfully!", "Saving Success", JOptionPane.INFORMATION_MESSAGE);
         dispose();
     }//GEN-LAST:event_positiveButtonActionPerformed
+
+    private void roleDropdownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roleDropdownActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_roleDropdownActionPerformed
 
     private void postInitComponents() {
         roleDropdown.setSelectedIndex(controller.getUserRoleIndex(null));

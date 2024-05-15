@@ -5,11 +5,21 @@
 package pos.view.dialogs;
 
 import java.awt.Frame;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 import pos.controller.ManageUsersController;
 
 /**
@@ -45,6 +55,7 @@ public class ManageUsersDialog extends javax.swing.JDialog {
         newUserButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         manageRoleButton = new javax.swing.JButton();
+        PrintButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Manage Users");
@@ -125,6 +136,15 @@ public class ManageUsersDialog extends javax.swing.JDialog {
             }
         });
 
+        PrintButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/images/IconPrint1.png"))); // NOI18N
+        PrintButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        PrintButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        PrintButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PrintButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -135,6 +155,8 @@ public class ManageUsersDialog extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(PrintButton1)
+                        .addGap(12, 12, 12)
                         .addComponent(manageRoleButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(newUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -148,7 +170,8 @@ public class ManageUsersDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(newUserButton)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(manageRoleButton))
+                    .addComponent(manageRoleButton)
+                    .addComponent(PrintButton1))
                 .addGap(12, 12, 12)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(40, Short.MAX_VALUE))
@@ -177,7 +200,30 @@ public class ManageUsersDialog extends javax.swing.JDialog {
         dialog.setVisible(true);
     }//GEN-LAST:event_manageRoleButtonActionPerformed
 
+    private void PrintButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrintButton1ActionPerformed
+        // TODO add your handling code here:
+
+        try {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            String jrxmlPath = "src/pos/report/ManageUser.jrxml";
+            JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlPath);
+
+            // Param for title and description if need
+            // Prepare parameters
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("reporttitle", "PT Supra Boga Lestari Tbk");
+            parameters.put("keterangan", "Jl. Pesanggrahan No.2, RT.1/RW.7, Kembangan Sel., Kec. Kembangan, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11610");
+           
+            JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, new JRTableModelDataSource(model));
+            JasperViewer.viewReport(print, false); // true == Exit on Close
+
+        } catch (JRException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_PrintButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton PrintButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
