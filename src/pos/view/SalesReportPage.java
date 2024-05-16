@@ -4,18 +4,32 @@
  */
 package pos.view;
 
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
+import pos.App;
 import pos.controller.SalesReportController;
+import pos.exception.InstanceNotFoundException;
+import pos.model.User;
 
 /**
  *
  * @author husainazkas
  */
 public class SalesReportPage extends javax.swing.JFrame {
-    
+
     private final SalesReportController controller = new SalesReportController();
 
     /**
@@ -43,16 +57,25 @@ public class SalesReportPage extends javax.swing.JFrame {
 
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        printButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Point of Sales | Sales Report");
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/res/images/icon.png")).getImage());
 
         jPanel2.setBackground(new java.awt.Color(51, 153, 255));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel2.setText("SALES REPORT");
+
+        printButton.setText("Print");
+        printButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -61,13 +84,17 @@ public class SalesReportPage extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jLabel2)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(printButton)
+                    .addComponent(jLabel2))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
@@ -130,10 +157,33 @@ public class SalesReportPage extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
+        try {
+            User user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+            
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            String jrxmlPath = "src/pos/report/SalesReport.jrxml";
+            JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlPath);
+            
+            //Param for title and description if need
+            //Prepare parameters
+            HashMap<String, Object> parameters = new HashMap<>();
+            parameters.put("reporttitle", "PT Supra Boga Lestari Tbk");
+            parameters.put("keterangan", "Jl. Pesanggrahan No.2, RT.1/RW.7, Kembangan Sel., Kec. Kembangan, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11610");
+            parameters.put("author", user.getFullName());
+            JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, new JRTableModelDataSource(model));
+            JasperViewer.viewReport(print, false); // true == Exit on Close
+        } catch (JRException | InstanceNotFoundException ex) {
+            Logger.getLogger(SalesReportPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_printButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton printButton;
     // End of variables declaration//GEN-END:variables
 }
