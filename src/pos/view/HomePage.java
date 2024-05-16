@@ -216,6 +216,11 @@ public class HomePage extends javax.swing.JFrame {
         });
 
         reportButton.setText("Report");
+        reportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reportButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -531,6 +536,11 @@ public class HomePage extends javax.swing.JFrame {
 
         controller.clearCart(jTable2.getModel());
     }//GEN-LAST:event_purchaseButtonActionPerformed
+
+    private void reportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportButtonActionPerformed
+        dispose();
+        new SalesReportPage().setVisible(true);
+    }//GEN-LAST:event_reportButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addToCartButton;

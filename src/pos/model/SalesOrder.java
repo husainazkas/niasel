@@ -127,6 +127,9 @@ public class SalesOrder implements Serializable {
             return false;
         }
         final SalesOrder other = (SalesOrder) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
         if (!Objects.equals(this.uuid, other.uuid)) {
             return false;
         }
@@ -134,9 +137,6 @@ public class SalesOrder implements Serializable {
             return false;
         }
         if (!Objects.equals(this.cashChange, other.cashChange)) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         if (!Objects.equals(this.totalPrice, other.totalPrice)) {
