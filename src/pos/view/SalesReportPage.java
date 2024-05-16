@@ -7,6 +7,7 @@ package pos.view;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -173,7 +174,13 @@ public class SalesReportPage extends javax.swing.JFrame {
             parameters.put("keterangan", "Jl. Pesanggrahan No.2, RT.1/RW.7, Kembangan Sel., Kec. Kembangan, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11610");
             parameters.put("author", user.getFullName());
             JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, new JRTableModelDataSource(model));
-            JasperViewer.viewReport(print, false); // true == Exit on Close
+            JasperViewer jasperViewer = new JasperViewer(print, false);
+
+            JDialog dialog = new JDialog(this);//the owner
+            dialog.setContentPane(jasperViewer.getContentPane());
+            dialog.setSize(jasperViewer.getSize());
+            dialog.setTitle("Sales List Report");
+            dialog.setVisible(true);
         } catch (JRException | InstanceNotFoundException ex) {
             Logger.getLogger(SalesReportPage.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -8,6 +8,9 @@ import java.text.DateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -494,8 +497,9 @@ public class ProductInventoryPage extends javax.swing.JFrame {
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
         try {
+            User user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             String jrxmlPath = "src/pos/report/ReportInventory.jrxml";
             JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlPath);
@@ -503,17 +507,20 @@ public class ProductInventoryPage extends javax.swing.JFrame {
             // Param for title and description if need
             // Prepare parameters
             Map<String, Object> parameters = new HashMap<>();
-            parameters.put("reporttitle", "PT Supra Boga Lestari Tbk");
+            parameters.put("reporttitle", "PT Supra Boga Lestari Tbks");
             parameters.put("keterangan", "Jl. Pesanggrahan No.2, RT.1/RW.7, Kembangan Sel., Kec. Kembangan, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11610");
+            parameters.put("author", user.getFullName());
             JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, new JRTableModelDataSource(model));
-            JasperViewer.viewReport(print, false); // true == Exit on Close
+            JasperViewer jasperViewer = new JasperViewer(print, false);
 
-        } catch (JRException ex) {
-            ex.printStackTrace();
+            JDialog dialog = new JDialog(this);//the owner
+            dialog.setContentPane(jasperViewer.getContentPane());
+            dialog.setSize(jasperViewer.getSize());
+            dialog.setTitle("Product Inventory Report");
+            dialog.setVisible(true);
+        } catch (JRException | InstanceNotFoundException ex) {
+            Logger.getLogger(ProductInventoryPage.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void updateSelectionTable() {

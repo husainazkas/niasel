@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,6 +22,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.text.PlainDocument;
+import net.sf.jasperreports.view.JasperViewer;
 import pos.App;
 import pos.controller.AuthController;
 import pos.controller.SalesController;
@@ -503,8 +505,15 @@ public class HomePage extends javax.swing.JFrame {
 //            Map<String, Object> parameters = new HashMap<>();
 //            parameters.put("reporttitle", "PT Supra Boga Lestari Tbk");
 //            parameters.put("keterangan", "Jl. Pesanggrahan No.2, RT.1/RW.7, Kembangan Sel., Kec. Kembangan, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11610");
+//            parameters.put("author", user.getFullName());
 //            JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, new JRTableModelDataSource(model));
-//            JasperViewer.viewReport(print, false); // true == Exit on Close
+//            JasperViewer jasperViewer = new JasperViewer(print, false);
+//
+//            JDialog dialog = new JDialog(this);//the owner
+//            dialog.setContentPane(jasperViewer.getContentPane());
+//            dialog.setSize(jasperViewer.getSize());
+//            dialog.setTitle("Check Out Bill");
+//            dialog.setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Operation Failed", JOptionPane.ERROR_MESSAGE);

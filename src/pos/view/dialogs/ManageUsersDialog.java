@@ -7,6 +7,9 @@ package pos.view.dialogs;
 import java.awt.Frame;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -20,7 +23,10 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.view.JasperViewer;
+import pos.App;
 import pos.controller.ManageUsersController;
+import pos.exception.InstanceNotFoundException;
+import pos.model.User;
 
 /**
  *
@@ -201,9 +207,9 @@ public class ManageUsersDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_manageRoleButtonActionPerformed
 
     private void PrintButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrintButton1ActionPerformed
-        // TODO add your handling code here:
-
         try {
+            User user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             String jrxmlPath = "src/pos/report/ManageUser.jrxml";
             JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlPath);
@@ -213,12 +219,18 @@ public class ManageUsersDialog extends javax.swing.JDialog {
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("reporttitle", "PT Supra Boga Lestari Tbk");
             parameters.put("keterangan", "Jl. Pesanggrahan No.2, RT.1/RW.7, Kembangan Sel., Kec. Kembangan, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11610");
-           
-            JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, new JRTableModelDataSource(model));
-            JasperViewer.viewReport(print, false); // true == Exit on Close
+            parameters.put("author", user.getFullName());
 
-        } catch (JRException ex) {
-            ex.printStackTrace();
+            JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, new JRTableModelDataSource(model));
+            JasperViewer jasperViewer = new JasperViewer(print, false);
+
+            JDialog dialog = new JDialog(this);//the owner
+            dialog.setContentPane(jasperViewer.getContentPane());
+            dialog.setSize(jasperViewer.getSize());
+            dialog.setTitle("User List Report");
+            dialog.setVisible(true);
+        } catch (JRException | InstanceNotFoundException ex) {
+            Logger.getLogger(ManageUsersDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_PrintButton1ActionPerformed
 

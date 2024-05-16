@@ -6,7 +6,7 @@
 	<subDataset name="Table Dataset 1" uuid="0aa709bb-9c82-4772-95f2-6ede26a00761"/>
 	<parameter name="reporttitle" class="java.lang.String"/>
 	<parameter name="keterangan" class="java.lang.String"/>
-	<parameter name="struk" class="java.lang.String"/>
+	<parameter name="author" class="java.lang.String"/>
 	<field name="#" class="java.lang.String"/>
 	<field name="Full Name" class="java.lang.String"/>
 	<field name="Status" class="java.lang.String"/>
@@ -106,18 +106,19 @@
 	</detail>
 	<pageFooter>
 		<band height="115">
-			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="442" y="10" width="100" height="20" uuid="83571d2d-c5ca-4396-977a-d3f5a67c99dc"/>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="424" y="11" width="100" height="20" uuid="57ea9544-3f8b-4c8a-9e0c-6228f895bb88"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="423" y="88" width="100" height="20" uuid="bdce0a94-a672-4a36-9060-8f3ff7bf88f9"/>
-				<text><![CDATA[Bulton Sirajagukguk]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="385" y="10" width="43" height="20" uuid="a4408a5a-12d2-4fad-b732-1739a44ee8fa"/>
+				<reportElement x="387" y="11" width="37" height="20" uuid="8d32913d-6747-4ecb-828d-569629eeb6cd"/>
 				<text><![CDATA[Jakarta, ]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="405" y="87" width="100" height="20" uuid="328d0b91-2063-40f6-8b22-47c77958238f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{author}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageFooter>
 </jasperReport>
