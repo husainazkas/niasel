@@ -7,6 +7,8 @@ package pos.view;
 import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,9 +20,17 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.text.PlainDocument;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 import pos.App;
 import pos.controller.AuthController;
 import pos.controller.SalesController;
@@ -492,6 +502,18 @@ public class HomePage extends javax.swing.JFrame {
         try {
             // Automatic print bill with jasper
             controller.createTransaction(user, price, cash, change);
+
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+            String jrxmlPath = "src/pos/report/Struk.jrxml";
+            JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlPath);
+
+            //Param for title and description if need
+            //Prepare parameters
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("reporttitle", "PT Supra Boga Lestari Tbk");
+            parameters.put("keterangan", "Jl. Pesanggrahan No.2, RT.1/RW.7, Kembangan Sel., Kec. Kembangan, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11610");
+            JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, new JRTableModelDataSource(model));
+            JasperViewer.viewReport(print, false); // true == Exit on Close
         } catch (Exception ex) {
             Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Operation Failed", JOptionPane.ERROR_MESSAGE);
