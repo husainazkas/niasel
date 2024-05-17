@@ -10,7 +10,6 @@ import java.text.ParseException;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,7 +21,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.text.PlainDocument;
-import net.sf.jasperreports.view.JasperViewer;
 import pos.App;
 import pos.controller.AuthController;
 import pos.controller.SalesController;
@@ -30,6 +28,7 @@ import pos.exception.InstanceNotFoundException;
 import pos.model.Product;
 import pos.model.User;
 import pos.utils.CustomDocumentFilter;
+import pos.utils.RequestFocusListener;
 import pos.view.dialogs.CheckOutDialog;
 import pos.view.dialogs.ManageUsersDialog;
 
@@ -41,12 +40,19 @@ public class HomePage extends javax.swing.JFrame {
 
     private final SalesController controller = new SalesController();
     private final NumberFormat numberFormat = NumberFormat.getInstance();
+    private final CustomDocumentFilter numberFilter = new CustomDocumentFilter();
+    private final RequestFocusListener requestFocusListener = new RequestFocusListener();
 
     /**
      * Creates new form HomePage
      */
     public HomePage() {
+        numberFilter.setIsMustNumber(true);
+        numberFilter.setIsCanEmpty(false);
+        numberFilter.setMaxLength(9);
+
         initComponents();
+
         controller.loadProducts(jTable1.getModel());
     }
 
@@ -415,14 +421,31 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_manageProductButtonActionPerformed
 
     private void addToCartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToCartButtonActionPerformed
-        CustomDocumentFilter numberFilter = new CustomDocumentFilter();
         JTextField input = new JTextField();
         PlainDocument docInput = (PlainDocument) input.getDocument();
         docInput.setDocumentFilter(numberFilter);
 
-        String result = JOptionPane.showInputDialog(input, "How much items?", "Add Item", JOptionPane.QUESTION_MESSAGE);
-        if (result != null) {
-            Integer count = Integer.valueOf(result);
+        JLabel message = new JLabel("How much items?");
+
+        JPanel panel = new JPanel();
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(panel);
+        panel.setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup()
+                        .addComponent(message)
+                        .addComponent(input)
+        );
+        layout.setVerticalGroup(layout.createSequentialGroup()
+                .addComponent(message)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(input)
+        );
+
+        input.addAncestorListener(requestFocusListener);
+
+        int result = JOptionPane.showConfirmDialog(this, panel, "Add Item", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (result == JOptionPane.OK_OPTION) {
+            Integer count = Integer.valueOf(input.getText());
             if (count > 0) {
                 Product product = controller.getProduct(jTable1.getModel(), jTable1.getSelectedRow());
                 controller.addProductToCart(product.getId(), count, false);
@@ -435,14 +458,33 @@ public class HomePage extends javax.swing.JFrame {
         JTable table = (JTable) evt.getSource();
         int row = table.rowAtPoint(evt.getPoint());
         if (evt.getClickCount() == 2 && table.getSelectedRow() != -1) {
-            CustomDocumentFilter numberFilter = new CustomDocumentFilter();
             JTextField input = new JTextField();
+            input.requestFocus();
+
             PlainDocument docInput = (PlainDocument) input.getDocument();
             docInput.setDocumentFilter(numberFilter);
 
-            String result = JOptionPane.showInputDialog(input, "How much items?", "Change Amount", JOptionPane.QUESTION_MESSAGE);
-            if (result != null) {
-                Integer count = Integer.valueOf(result);
+            JLabel message = new JLabel("How much items?");
+
+            JPanel panel = new JPanel();
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(panel);
+            panel.setLayout(layout);
+            layout.setHorizontalGroup(
+                    layout.createParallelGroup()
+                            .addComponent(message)
+                            .addComponent(input)
+            );
+            layout.setVerticalGroup(layout.createSequentialGroup()
+                    .addComponent(message)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(input)
+            );
+            
+            input.addAncestorListener(requestFocusListener);
+
+            int result = JOptionPane.showConfirmDialog(this, panel, "Change Amount", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (result == JOptionPane.OK_OPTION) {
+                Integer count = Integer.valueOf(input.getText());
                 if (count > 0) {
                     Product product = controller.getSelectedProduct(row);
                     controller.addProductToCart(product.getId(), count, true);

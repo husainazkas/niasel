@@ -101,7 +101,7 @@
         <Property name="horizontalAlignment" type="int" value="11"/>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="CustomDocumentFilter numberFilter = new CustomDocumentFilter();&#xa;PlainDocument docCash = (PlainDocument) cashTextField.getDocument();&#xa;docCash.setDocumentFilter(numberFilter);"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="CustomDocumentFilter numberFilter = new CustomDocumentFilter();&#xa;numberFilter.setIsMustNumber(true);&#xa;numberFilter.setIsCanEmpty(false);&#xa;numberFilter.setMaxLength(9);&#xa;PlainDocument docCash = (PlainDocument) cashTextField.getDocument();&#xa;docCash.setDocumentFilter(numberFilter);"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
