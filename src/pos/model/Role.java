@@ -25,6 +25,21 @@ public class Role implements Serializable {
     @Column()
     private String name;
 
+    @Column(name = "c_u_product", insertable = false, columnDefinition = "BIT", length = 1)
+    private Boolean isCanUpdateProduct;
+
+    @Column(name = "r_users", insertable = false, columnDefinition = "BIT", length = 1)
+    private Boolean isCanReadUsers;
+
+    @Column(name = "c_u_user", insertable = false, columnDefinition = "BIT", length = 1)
+    private Boolean isCanCreateUpdateUser;
+
+    @Column(name = "d_user", insertable = false, columnDefinition = "BIT", length = 1)
+    private Boolean isCanDeleteUser;
+
+    @Column(name = "c_purchase", insertable = false, columnDefinition = "BIT", length = 1)
+    private Boolean isCanCreatePurchase;
+
     @Column(name = "is_active", insertable = false, columnDefinition = "BIT", length = 1)
     private Boolean isActive;
 
@@ -63,6 +78,46 @@ public class Role implements Serializable {
 
     public boolean getIsActive() {
         return isActive;
+    }
+
+    public void setIsCanUpdateProduct(boolean isCanUpdateProduct) {
+        this.isCanUpdateProduct = isCanUpdateProduct;
+    }
+
+    public boolean getIsCanUpdateProduct() {
+        return isCanUpdateProduct;
+    }
+
+    public void setIsCanReadUsers(boolean isCanReadUsers) {
+        this.isCanReadUsers = isCanReadUsers;
+    }
+
+    public boolean getIsCanReadUsers() {
+        return isCanReadUsers;
+    }
+
+    public void setIsCanCreateUpdateUser(boolean isCanCreateUpdateUser) {
+        this.isCanCreateUpdateUser = isCanCreateUpdateUser;
+    }
+
+    public boolean getIsCanCreateUpdateUser() {
+        return isCanCreateUpdateUser;
+    }
+
+    public void setIsCanDeleteUser(boolean isCanDeleteUser) {
+        this.isCanDeleteUser = isCanDeleteUser;
+    }
+
+    public boolean getIsCanDeleteUser() {
+        return isCanDeleteUser;
+    }
+
+    public void setIsCanCreatePurchase(boolean isCanCreatePurchase) {
+        this.isCanCreatePurchase = isCanCreatePurchase;
+    }
+
+    public boolean getIsCanCreatePurchase() {
+        return isCanCreatePurchase;
     }
 
     public void setIsActive(boolean isActive) {
@@ -114,6 +169,11 @@ public class Role implements Serializable {
         int hash = 0;
         hash += Objects.hashCode(id);
         hash += Objects.hashCode(name);
+        hash += Objects.hashCode(isCanUpdateProduct);
+        hash += Objects.hashCode(isCanReadUsers);
+        hash += Objects.hashCode(isCanCreateUpdateUser);
+        hash += Objects.hashCode(isCanDeleteUser);
+        hash += Objects.hashCode(isCanCreatePurchase);
         hash += Objects.hashCode(isActive);
         hash += Objects.hashCode(isDeleted);
         hash += Objects.hashCode(updatedAt);
@@ -141,6 +201,21 @@ public class Role implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
+        if (!Objects.equals(this.isCanUpdateProduct, other.isCanUpdateProduct)) {
+            return false;
+        }
+        if (!Objects.equals(this.isCanReadUsers, other.isCanReadUsers)) {
+            return false;
+        }
+        if (!Objects.equals(this.isCanCreateUpdateUser, other.isCanCreateUpdateUser)) {
+            return false;
+        }
+        if (!Objects.equals(this.isCanDeleteUser, other.isCanDeleteUser)) {
+            return false;
+        }
+        if (!Objects.equals(this.isCanCreatePurchase, other.isCanCreatePurchase)) {
+            return false;
+        }
         if (!Objects.equals(this.isActive, other.isActive)) {
             return false;
         }
@@ -161,7 +236,7 @@ public class Role implements Serializable {
 
     @Override
     public String toString() {
-        return "pos.model.Role[ id=" + id + ", name=" + name + ", isActive=" + isActive + ", isDeleted=" + isDeleted + ", updatedAt=" + updatedAt + ", updatedBy=" + updatedBy + ", createdAt=" + createdAt + ", createdBy=" + createdBy + " ]";
+        return "pos.model.Role[ id=" + id + ", name=" + name + ", isCanUpdateProduct=" + isCanUpdateProduct + ", isCanReadUsers=" + isCanReadUsers + ", isCanCreateUpdateUser=" + isCanCreateUpdateUser + ", isCanDeleteUser=" + isCanDeleteUser + ", isCanCreatePurchase=" + isCanCreatePurchase + ", isActive=" + isActive + ", isDeleted=" + isDeleted + ", updatedAt=" + updatedAt + ", updatedBy=" + updatedBy + ", createdAt=" + createdAt + ", createdBy=" + createdBy + " ]";
     }
 
 }

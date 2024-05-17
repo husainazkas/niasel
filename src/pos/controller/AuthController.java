@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import org.apache.commons.codec.digest.DigestUtils;
 import pos.exception.LoginFailureException;
+import pos.model.Role;
 import pos.model.User;
 
 /**
@@ -50,6 +51,11 @@ public class AuthController extends BaseController {
                 throw LoginFailureException.userNotFound();
             } else if (!user.getIsActive()) {
                 throw LoginFailureException.userIsInactive();
+            } 
+            
+            Role role = user.getRole();
+            if (role == null || !role.getIsActive()) {
+                throw new Exception("Role is not active");
             }
 
             currentUser = Optional.of(user);

@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import pos.App;
 import pos.controller.ManageUsersController;
 import pos.exception.InstanceNotFoundException;
+import pos.model.Role;
 import pos.model.User;
 
 /**
@@ -57,6 +58,31 @@ public class UserDetailDialog extends javax.swing.JDialog {
         // Unselect user from controller
         controller.selectUser(null);
         super.dispose(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    private User getCurrentUser() {
+        try {
+            return App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+        } catch (InstanceNotFoundException | NoSuchElementException ex) {
+            return null;
+        }
+    }
+
+    private boolean isCanUpdate() {
+        User user = getCurrentUser();
+        if (user != null) {
+            return Objects.equals(Long.valueOf(controller.getUserId(null)), user.getId())
+                    || user.getRole().getIsCanCreateUpdateUser();
+        }
+        return false;
+    }
+
+    private boolean isNegativeButtonEnabled() {
+        User user = getCurrentUser();
+        if (user != null) {
+            return "Cancel".equals(negativeButton.getText()) || user.getRole().getIsCanDeleteUser();
+        }
+        return false;
     }
 
     /**
@@ -319,10 +345,10 @@ public class UserDetailDialog extends javax.swing.JDialog {
         try {
             user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
         } catch (InstanceNotFoundException | NoSuchElementException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Deleting Failed", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Unknown Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         if (Objects.equals(user.getId(), Long.valueOf(controller.getUserId(null)))) {
             dispose();
             return;
@@ -408,13 +434,11 @@ public class UserDetailDialog extends javax.swing.JDialog {
 
         boolean isEditing = controller.getUserId(null) != null;
 
-        updatePasswordCheckBox.setVisible(isEditing);
-        passwordField.setEnabled(isEditing ? updatePasswordCheckBox.isSelected() : true);
-        passwordField.setText(isEditing && !updatePasswordCheckBox.isSelected() ? "password" : null);
         jLabel14.setVisible(isEditing ? updatePasswordCheckBox.isSelected() : true);
         confirmPasswordField.setVisible(isEditing ? updatePasswordCheckBox.isSelected() : true);
 
         if (isEditing) {
+            passwordField.setText(!updatePasswordCheckBox.isSelected() ? "password" : null);
             updatedAtText.setText(": " + controller.getUserUpdatedAt(null));
             createdAtText.setText(": " + controller.getUserCreatedAt(null));
 
@@ -430,11 +454,23 @@ public class UserDetailDialog extends javax.swing.JDialog {
             if (Objects.equals(user.getId(), Long.valueOf(controller.getUserId(null)))) {
                 roleDropdown.setEnabled(false);
                 statusCheckBox.setEnabled(false);
+                passwordField.setEnabled(updatePasswordCheckBox.isSelected());
+
                 negativeButton.setText("Cancel");
+            } else {
+                Role role = user.getRole();
+
+                firstNameTextField.setEnabled(role.getIsCanCreateUpdateUser());
+                lastNameTextField.setEnabled(role.getIsCanCreateUpdateUser());
+                updatePasswordCheckBox.setVisible(role.getIsCanCreateUpdateUser());
+                passwordField.setEnabled(role.getIsCanCreateUpdateUser());
+                firstNameTextField.setEnabled(role.getIsCanCreateUpdateUser());
+                negativeButton.setEnabled(role.getIsCanDeleteUser());
             }
         } else {
             jLabel7.setVisible(false);
             jLabel8.setVisible(false);
+            updatePasswordCheckBox.setVisible(false);
             updatedAtText.setVisible(false);
             createdAtText.setVisible(false);
 

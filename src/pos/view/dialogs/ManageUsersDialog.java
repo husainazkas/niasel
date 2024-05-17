@@ -123,6 +123,15 @@ public class ManageUsersDialog extends javax.swing.JDialog {
                 jTable1MouseClicked(evt);
             }
         });
+        jTable1.getModel().addTableModelListener(evt -> {
+            try {
+                User user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+
+                newUserButton.setEnabled(user.getRole().getIsCanCreateUpdateUser());
+                manageRoleButton.setEnabled(user.getRole().getIsCanCreateUpdateUser());
+            } catch (Exception ex) {
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         newUserButton.setText("New");
@@ -164,7 +173,7 @@ public class ManageUsersDialog extends javax.swing.JDialog {
                         .addComponent(PrintButton1)
                         .addGap(12, 12, 12)
                         .addComponent(manageRoleButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(12, 12, 12)
                         .addComponent(newUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 616, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34))
@@ -187,11 +196,6 @@ public class ManageUsersDialog extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void newUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newUserButtonActionPerformed
-        new UserDetailDialog(this, controller, null).setVisible(true);
-        controller.loadUsers(jTable1.getModel());
-    }//GEN-LAST:event_newUserButtonActionPerformed
-
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         JTable source = (JTable) evt.getSource();
         int row = source.rowAtPoint(evt.getPoint());
@@ -199,12 +203,6 @@ public class ManageUsersDialog extends javax.swing.JDialog {
         new UserDetailDialog(this, controller, id).setVisible(true);
         controller.loadUsers(jTable1.getModel());
     }//GEN-LAST:event_jTable1MouseClicked
-
-    private void manageRoleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageRoleButtonActionPerformed
-        ManageRolesDialog dialog = new ManageRolesDialog(this);
-        dialog.setWhenComplete(t -> controller.loadUsers(jTable1.getModel(), t));
-        dialog.setVisible(true);
-    }//GEN-LAST:event_manageRoleButtonActionPerformed
 
     private void PrintButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrintButton1ActionPerformed
         try {
@@ -233,6 +231,17 @@ public class ManageUsersDialog extends javax.swing.JDialog {
             Logger.getLogger(ManageUsersDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_PrintButton1ActionPerformed
+
+    private void manageRoleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageRoleButtonActionPerformed
+        ManageRolesDialog dialog = new ManageRolesDialog(this);
+        dialog.setWhenComplete(t -> controller.loadUsers(jTable1.getModel(), t));
+        dialog.setVisible(true);
+    }//GEN-LAST:event_manageRoleButtonActionPerformed
+
+    private void newUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newUserButtonActionPerformed
+        new UserDetailDialog(this, controller, null).setVisible(true);
+        controller.loadUsers(jTable1.getModel());
+    }//GEN-LAST:event_newUserButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton PrintButton1;

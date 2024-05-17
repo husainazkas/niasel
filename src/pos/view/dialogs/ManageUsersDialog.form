@@ -34,7 +34,7 @@
                       <Component id="PrintButton1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Component id="manageRoleButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Component id="newUserButton" min="-2" pref="78" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" min="-2" pref="616" max="-2" attributes="0"/>
@@ -135,6 +135,9 @@
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable1MouseClicked"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="jTable1.getModel().addTableModelListener(evt -&gt; {&#xa;    try {&#xa;        User user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();&#xa;&#xa;        newUserButton.setEnabled(user.getRole().getIsCanCreateUpdateUser());&#xa;        manageRoleButton.setEnabled(user.getRole().getIsCanCreateUpdateUser());&#xa;    } catch (Exception ex) {&#xa;    }&#xa;});"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

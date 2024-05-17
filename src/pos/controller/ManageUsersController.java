@@ -72,15 +72,16 @@ public class ManageUsersController extends BaseController {
         table.setRowCount(0);
         for (int i = 0; i < users.size(); i++) {
             User u = users.get(i);
-            Role role = roles.stream()
-                    .filter(e -> Objects.equals(e.getId(), u.getRoleId()))
-                    .findFirst()
-                    .orElse(null);
+//            Role role = roles.stream()
+//                    .filter(e -> Objects.equals(e.getId(), u.getRoleId()))
+//                    .findFirst()
+//                    .orElse(null);
 
             Object[] row = {
                 Long.valueOf(String.valueOf(i + 1)),
                 u.getFirstName() + " " + u.getLastName(),
-                role != null ? role.getName() : "-",
+//                role != null ? role.getName() : "-",
+                u.getRole().getName(),
                 u.getIsActive() ? "Active" : "Inactive",
                 dateFormat.format(u.getUpdatedAt()),
                 dateFormat.format(u.getCreatedAt()),
@@ -165,7 +166,7 @@ public class ManageUsersController extends BaseController {
                 if (isUpdatePassword) {
                     raw.append("password = :password, ".replace(":password", "\"" + DigestUtils.sha1Hex(password) + "\""));
                 }
-                if (!user.getRoleId().equals(roleId)) {
+                if (!user.getRole().getId().equals(roleId)) {
                     raw.append("role_id = :roleId, ".replace(":roleId", String.valueOf(roleId)));
                 }
                 if (user.getIsActive() != isActive) {
@@ -238,7 +239,7 @@ public class ManageUsersController extends BaseController {
         return selectedUser.flatMap((a) -> {
             Optional<Role> selectedRole = roles.stream().filter((e) -> {
                 return e.getIsActive()
-                        && Objects.equals(e.getId(), a.getRoleId());
+                        && Objects.equals(e.getId(), a.getRole().getId());
             }).findFirst();
             return selectedRole.map((b) -> roles.indexOf(b));
         }).orElse(Objects.requireNonNullElse(orElse, -1));

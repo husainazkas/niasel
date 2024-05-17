@@ -26,6 +26,7 @@ import pos.controller.AuthController;
 import pos.controller.SalesController;
 import pos.exception.InstanceNotFoundException;
 import pos.model.Product;
+import pos.model.Role;
 import pos.model.User;
 import pos.utils.CustomDocumentFilter;
 import pos.utils.RequestFocusListener;
@@ -52,7 +53,7 @@ public class HomePage extends javax.swing.JFrame {
         numberFilter.setMaxLength(9);
 
         initComponents();
-
+        postInitComponents();
         controller.loadProducts(jTable1.getModel());
     }
 
@@ -145,10 +146,6 @@ public class HomePage extends javax.swing.JFrame {
         TableColumn index1Column = table1Column.getColumn(0);
         index1Column.setPreferredWidth(30);
         index1Column.setCellRenderer(centerRenderer);
-
-        jTable1.getSelectionModel().addListSelectionListener(evt -> {
-            addToCartButton.setEnabled(jTable1.getSelectedRow() != -1);
-        });
         jTable1.setFillsViewportHeight(true);
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -237,7 +234,7 @@ public class HomePage extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(jLabel2)
-                .addGap(121, 121, 121)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(manageProductButton, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(manageUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -397,6 +394,25 @@ public class HomePage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void postInitComponents() {
+        Role role;
+        try {
+            User user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+            role = user.getRole();
+        } catch (InstanceNotFoundException | NoSuchElementException ex) {
+            return;
+        }
+
+        if (role.getIsCanCreatePurchase()) {
+            jTable1.getSelectionModel().addListSelectionListener(evt -> {
+                addToCartButton.setEnabled(jTable1.getSelectedRow() != -1);
+            });
+        }
+
+        manageProductButton.setVisible(role.getIsCanUpdateProduct());
+        manageUserButton.setVisible(role.getIsCanReadUsers());
+    }
+
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         try {
             final AuthController authController = App.getInstance().getAuthController();
@@ -479,7 +495,7 @@ public class HomePage extends javax.swing.JFrame {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(input)
             );
-            
+
             input.addAncestorListener(requestFocusListener);
 
             int result = JOptionPane.showConfirmDialog(this, panel, "Change Amount", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);

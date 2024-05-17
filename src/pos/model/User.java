@@ -31,8 +31,9 @@ public class User implements Serializable {
     @Column(insertable = false, updatable = false)
     private String username;
 
-    @Column(name = "role_id")
-    private Long roleId;
+    @OneToOne(optional = false)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     @Column(name = "is_active", insertable = false, columnDefinition = "BIT", length = 1)
     private Boolean isActive;
@@ -90,12 +91,12 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public Long getRoleId() {
-        return roleId;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public boolean getIsActive() {
@@ -153,7 +154,7 @@ public class User implements Serializable {
         hash += Objects.hashCode(firstName);
         hash += Objects.hashCode(lastName);
         hash += Objects.hashCode(username);
-        hash += Objects.hashCode(roleId);
+        hash += Objects.hashCode(role);
         hash += Objects.hashCode(isActive);
         hash += Objects.hashCode(isDeleted);
         hash += Objects.hashCode(updatedAt);
@@ -175,6 +176,9 @@ public class User implements Serializable {
             return false;
         }
         final User other = (User) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
         if (!Objects.equals(this.firstName, other.firstName)) {
             return false;
         }
@@ -184,10 +188,7 @@ public class User implements Serializable {
         if (!Objects.equals(this.username, other.username)) {
             return false;
         }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.roleId, other.roleId)) {
+        if (!Objects.equals(this.role, other.role)) {
             return false;
         }
         if (!Objects.equals(this.isActive, other.isActive)) {
@@ -210,7 +211,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "pos.model.User[ id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + username + ", roleId=" + roleId + ", isActive=" + isActive + ", isDeleted=" + isDeleted + ", updatedAt=" + updatedAt + ", updatedBy=" + updatedBy + ", createdAt=" + createdAt + ", createdBy=" + createdBy + " ]";
+        return "pos.model.User[ id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + username + ", role=" + role + ", isActive=" + isActive + ", isDeleted=" + isDeleted + ", updatedAt=" + updatedAt + ", updatedBy=" + updatedBy + ", createdAt=" + createdAt + ", createdBy=" + createdBy + " ]";
     }
 
 }
