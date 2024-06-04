@@ -45,3 +45,82 @@ func DeleteProductPermission(ctx *gin.Context) {
 
 	ctx.Next()
 }
+
+func ReadUsersPermission(ctx *gin.Context) {
+	user, _ := ctx.Get("user")
+	if user == nil {
+		abortBadConfig(ctx)
+		return
+	}
+
+	_user := user.(models.User)
+	if ctx.Param("id") != string(rune(*_user.Id)) && !_user.Role.ReadUsers {
+		abortNotPermit(ctx)
+		return
+	}
+
+	ctx.Next()
+}
+
+func CreateUpdateUserPermission(ctx *gin.Context) {
+	user, _ := ctx.Get("user")
+	if user == nil {
+		abortBadConfig(ctx)
+		return
+	}
+	_user := user.(models.User)
+	if ctx.Param("id") != string(rune(*_user.Id)) && !_user.Role.CreateUpdateUser {
+		abortNotPermit(ctx)
+		return
+	}
+
+	ctx.Next()
+}
+
+func DeleteUserPermission(ctx *gin.Context) {
+	user, _ := ctx.Get("user")
+	if user == nil {
+		abortBadConfig(ctx)
+		return
+	}
+
+	_user := user.(models.User)
+	if ctx.Param("id") == string(rune(*_user.Id)) || !_user.Role.DeleteUser {
+		abortNotPermit(ctx)
+		return
+	}
+
+	ctx.Next()
+}
+
+func AllUserRolePermission(ctx *gin.Context) {
+	user, _ := ctx.Get("user")
+	if user == nil {
+		abortBadConfig(ctx)
+		return
+	}
+
+	_user := user.(models.User)
+	if !_user.Role.ReadUsers && !_user.Role.CreateUpdateUser && !_user.Role.DeleteUser {
+		abortNotPermit(ctx)
+		return
+	}
+
+	ctx.Next()
+}
+
+func CreatePurchasePermission(ctx *gin.Context) {
+	user, _ := ctx.Get("user")
+	if user == nil {
+		abortBadConfig(ctx)
+		return
+	}
+
+	_user := user.(models.User)
+	if !_user.Role.CreatePurchase {
+		abortNotPermit(ctx)
+		return
+	}
+
+	ctx.Next()
+}

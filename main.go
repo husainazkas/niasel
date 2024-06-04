@@ -10,6 +10,7 @@ import (
 	"github.com/husainazkas/go_playground/src/middleware"
 	"github.com/husainazkas/go_playground/src/modules/auth"
 	"github.com/husainazkas/go_playground/src/modules/product"
+	"github.com/husainazkas/go_playground/src/modules/user"
 )
 
 func init() {
@@ -35,6 +36,7 @@ func main() {
 	// routes
 	auth.Routes(router.Group("/api/auth"))
 	product.Routes(router.Group("/api/product"))
+	user.Routes(router.Group("/api/user"))
 
 	router.NoRoute(func(c *gin.Context) {
 		c.JSON(404, helpers.ErrorResponse("No route found"))

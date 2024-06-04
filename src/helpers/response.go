@@ -39,11 +39,17 @@ func setResponseMessage(response gin.H, msg any) {
 func setResponseData(response gin.H, data []Data) {
 	if len(data) > 0 {
 		d := Data{}
-		for _, e := range data {
-			for key, value := range e {
-				d[key] = value
+		if len(data[0]) > 1 {
+			for _, e := range data {
+				for key, value := range e {
+					d[key] = value
+				}
+			}
+			response["data"] = d
+		} else {
+			for _, value := range data[0] {
+				response["data"] = value
 			}
 		}
-		response["data"] = d
 	}
 }
