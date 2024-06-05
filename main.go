@@ -34,9 +34,9 @@ func main() {
 	router.Static("/.well-known", "./.well-known")
 
 	// routes
-	auth.Routes(router.Group("/api/auth"))
-	product.Routes(router.Group("/api/product"))
-	user.Routes(router.Group("/api/user"))
+	auth.Routes(router.Group("/api/v1/auth"))
+	product.Routes(router.Group("/api/v1/product"))
+	user.Routes(router.Group("/api/v1/user"))
 
 	router.NoRoute(func(c *gin.Context) {
 		c.JSON(404, helpers.ErrorResponse("No route found"))
