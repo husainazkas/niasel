@@ -3,7 +3,7 @@ package user
 type userSchema struct {
 	FirstName string `binding:"required,alpha" json:"first_name"`
 	LastName  string `binding:"required,alpha" json:"last_name"`
-	RoleId    int    `binding:"required" json:"role_id"`
+	RoleId    uint   `binding:"required" json:"role_id"`
 	IsActive  bool   `json:"is_active"`
 
 	// Ignored when update
