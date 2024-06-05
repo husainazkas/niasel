@@ -18,5 +18,5 @@ type Session struct {
 
 // Overrides the table name
 func (Session) TableName() string {
-	return "secure_session"
+	return "auth_session"
 }

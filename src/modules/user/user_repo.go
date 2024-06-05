@@ -6,7 +6,7 @@ import (
 	"github.com/husainazkas/go_playground/src/helpers/pagination"
 )
 
-func findUser(result *pagination.Pagination, query *pagination.PaginationSchema) error {
+func find(result *pagination.Pagination, query *pagination.PaginationSchema) error {
 	keyword := "%" + query.Search + "%"
 	q := config.DB.
 		Where("first_name LIKE ? OR last_name LIKE ?", keyword, keyword).
@@ -22,24 +22,12 @@ func findUser(result *pagination.Pagination, query *pagination.PaginationSchema)
 	})
 }
 
-func findRole(result *pagination.Pagination, query *pagination.PaginationSchema) error {
-	q := config.DB.Where("name LIKE ?", "%"+query.Search+"%")
-	return result.New(&pagination.Params{
-		Query:     q,
-		Model:     &[]models.Role{},
-		Page:      query.Page,
-		Limit:     query.Limit,
-		Order:     query.Order,
-		Direction: query.Direction,
-	})
-}
-
-func fineOneUser(user *models.User, id string) error {
+func fineOne(user *models.User, id string) error {
 	return config.DB.Preload("Role").Preload("Account").Where("id = ?", id).First(user).Error
 }
 
-func save(value any) error {
-	return config.DB.Save(value).Error
+func save(user *models.User) error {
+	return config.DB.Save(user).Error
 }
 
 func setActiveAccount(account *models.Account, userId uint) error {
@@ -61,8 +49,4 @@ func softDeleteUserAccount(id uint, userId uint) error {
 		"is_deleted": 1,
 		"updated_by": userId,
 	}).Error
-}
-
-func deleteRole(id uint) error {
-	return config.DB.Delete(models.Role{Id: &id}).Error
 }

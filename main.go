@@ -9,7 +9,7 @@ import (
 	"github.com/husainazkas/go_playground/src/helpers/session"
 	"github.com/husainazkas/go_playground/src/middleware"
 	"github.com/husainazkas/go_playground/src/modules/auth"
-	"github.com/husainazkas/go_playground/src/modules/product"
+	"github.com/husainazkas/go_playground/src/modules/master"
 	"github.com/husainazkas/go_playground/src/modules/user"
 )
 
@@ -35,7 +35,7 @@ func main() {
 
 	// routes
 	auth.Routes(router.Group("/api/v1/auth"))
-	product.Routes(router.Group("/api/v1/product"))
+	master.Routes(router.Group("/api/v1/master"))
 	user.Routes(router.Group("/api/v1/user"))
 
 	router.NoRoute(func(c *gin.Context) {

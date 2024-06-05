@@ -13,5 +13,5 @@ type Account struct {
 
 // Overrides the table name
 func (Account) TableName() string {
-	return "secure_account"
+	return "auth_account"
 }
