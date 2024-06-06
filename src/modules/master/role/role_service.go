@@ -20,14 +20,15 @@ func getListRoleService(query *pagination.PaginationSchema) (*pagination.Paginat
 
 func saveRoleService(body *roleSchema, roleId string, user models.User) error {
 	role := &models.Role{
-		Name:                body.Name,
-		CreateUpdateProduct: types.BitBool(body.CreateUpdateProduct),
-		DeleteProduct:       types.BitBool(body.DeleteProduct),
-		ReadUsers:           types.BitBool(body.ReadUsers),
-		CreateUpdateUser:    types.BitBool(body.CreateUpdateUser),
-		DeleteUser:          types.BitBool(body.DeleteUser),
-		CreatePurchase:      types.BitBool(body.CreatePurchase),
-		IsActive:            types.BitBool(body.IsActive),
+		Name:                     body.Name,
+		CreateUpdateDeleteMaster: types.BitBool(body.CreateUpdateDeleteMaster),
+		CreateUpdateProduct:      types.BitBool(body.CreateUpdateProduct),
+		DeleteProduct:            types.BitBool(body.DeleteProduct),
+		ReadUsers:                types.BitBool(body.ReadUsers),
+		CreateUpdateUser:         types.BitBool(body.CreateUpdateUser),
+		DeleteUser:               types.BitBool(body.DeleteUser),
+		CreatePurchase:           types.BitBool(body.CreatePurchase),
+		IsActive:                 types.BitBool(body.IsActive),
 		TimestampsAuthor: models.TimestampsAuthor{
 			UpdatedBy: user.Id,
 		},

@@ -14,6 +14,22 @@ func abortNotPermit(ctx *gin.Context) {
 	ctx.AbortWithStatusJSON(403, helpers.ErrorResponse("You are not permitted to process this request"))
 }
 
+func CreateUpdateDeleteMaster(ctx *gin.Context) {
+	user, _ := ctx.Get("user")
+	if user == nil {
+		abortBadConfig(ctx)
+		return
+	}
+
+	_user := user.(models.User)
+	if !_user.Role.CreateUpdateDeleteMaster {
+		abortNotPermit(ctx)
+		return
+	}
+
+	ctx.Next()
+}
+
 func CreateUpdateProductPermission(ctx *gin.Context) {
 	user, _ := ctx.Get("user")
 	if user == nil {

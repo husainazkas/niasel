@@ -7,8 +7,23 @@ import (
 
 func Routes(router *gin.RouterGroup) {
 	authorized := router.Group("/", middleware.Auth)
-	authorized.GET("/", middleware.CreateUpdateUserPermission, handleListRole)
-	authorized.POST("/add", middleware.AllUserRolePermission, handleAddRole)
-	authorized.PUT("/update/:id", middleware.CreateUpdateUserPermission, handleUpdateRole)
-	authorized.DELETE("/delete/:id", middleware.AllUserRolePermission, handleDeleteRole)
+	authorized.GET("/", middleware.ReadUsersPermission, handleListRole)
+	authorized.POST(
+		"/add",
+		middleware.CreateUpdateDeleteMaster,
+		middleware.AllUserRolePermission,
+		handleAddRole,
+	)
+	authorized.PUT(
+		"/update/:id",
+		middleware.CreateUpdateDeleteMaster,
+		middleware.CreateUpdateUserPermission,
+		handleUpdateRole,
+	)
+	authorized.DELETE(
+		"/delete/:id",
+		middleware.CreateUpdateDeleteMaster,
+		middleware.AllUserRolePermission,
+		handleDeleteRole,
+	)
 }
