@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
@@ -20,6 +22,7 @@ func init() {
 	if e := session.InitSign(); e != nil {
 		panic(e)
 	}
+	gin.SetMode(os.Getenv(gin.EnvGinMode))
 }
 
 func main() {
