@@ -22,6 +22,10 @@ func find(result *pagination.Pagination, query *pagination.PaginationSchema) err
 	})
 }
 
+func findOne(product *models.Product, id string) error {
+	return config.DB.Where("id = ?", id).Find(product).Error
+}
+
 func saveProduct(product *models.Product) error {
 	return config.DB.Save(product).Error
 }

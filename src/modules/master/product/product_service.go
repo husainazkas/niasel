@@ -17,6 +17,16 @@ func getListProductService(query *pagination.PaginationSchema) (*pagination.Pagi
 	return &result, nil
 }
 
+func GetDetailProductService(productId string) (*models.Product, error) {
+	var product models.Product
+
+	if err := findOne(&product, productId); err != nil {
+		return nil, err
+	}
+
+	return &product, nil
+}
+
 func saveProductService(body *productSchema, productId string, user models.User) error {
 	product := &models.Product{
 		BarcodeId: body.BarcodeId,

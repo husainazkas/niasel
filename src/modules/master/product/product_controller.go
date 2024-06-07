@@ -13,7 +13,6 @@ func handleListProduct(ctx *gin.Context) {
 	ctx.ShouldBindQuery(&query)
 
 	data, err := getListProductService(&query)
-
 	if err != nil {
 		ctx.AbortWithStatusJSON(400, helpers.ErrorResponse(err.Error()))
 		return
