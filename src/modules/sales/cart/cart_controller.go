@@ -7,7 +7,8 @@ import (
 )
 
 func handleDetailCart(ctx *gin.Context) {
-	data, err := getCartByIdService(ctx.Param("id"))
+	isShouldOrdered := false
+	data, err := GetCartByIdService(ctx.Param("id"), &isShouldOrdered)
 	if err != nil {
 		ctx.AbortWithStatusJSON(400, helpers.ErrorResponse(err.Error()))
 		return

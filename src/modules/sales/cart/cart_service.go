@@ -10,9 +10,12 @@ import (
 	"gorm.io/gorm"
 )
 
-func getCartByIdService(cartId string) (*models.Cart, error) {
+func GetCartByIdService(cartId string, isShouldOrdered *bool) (*models.Cart, error) {
 	cart := models.Cart{}
-	if err := findCart(cartId, &cart); err != nil {
+	if err := findCart(cartId, &cart, isShouldOrdered); err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.New("cart not found or has ordered")
+		}
 		return nil, err
 	}
 	return &cart, nil
@@ -49,9 +52,10 @@ func newCartService(body *newCartSchema, user models.User) (*models.Cart, error)
 
 func updateCartItemService(isAdding bool, body *cartItemSchema, cartId string, user models.User) (*models.Cart, error) {
 	cart := &models.Cart{}
-	if err := findCart(cartId, cart); err != nil {
+	isShouldOrdered := false
+	if err := findCart(cartId, cart, &isShouldOrdered); err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errors.New("cart not found")
+			return nil, errors.New("cart not found or has ordered")
 		}
 		return nil, err
 	}

@@ -7,11 +7,19 @@ import (
 	"github.com/husainazkas/go_playground/src/database/models"
 )
 
-func findCart(id string, cart *models.Cart) error {
-	return config.DB.Preload("Items").
-		Where("id = ?", id).
-		Where("id NOT IN (?)", config.DB.Model(&models.Order{}).Select("cart_id")).
-		First(cart).Error
+func findCart(id string, cart *models.Cart, isShouldOrdered *bool) error {
+	query := config.DB.Preload("Items").Where("id = ?", id)
+
+	if isShouldOrdered != nil {
+		q := config.DB.Model(&models.Order{}).Select("cart_id")
+		if *isShouldOrdered {
+			query = query.Where("id IN (?)", q)
+		} else {
+			query = query.Where("id NOT IN (?)", q)
+		}
+	}
+
+	return query.First(cart).Error
 }
 
 func save(value any) error {
