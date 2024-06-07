@@ -1,6 +1,8 @@
 package middleware
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/husainazkas/go_playground/src/database/models"
 	"github.com/husainazkas/go_playground/src/helpers"
@@ -70,7 +72,7 @@ func ReadUsersPermission(ctx *gin.Context) {
 	}
 
 	_user := user.(models.User)
-	if ctx.Param("id") != string(rune(*_user.Id)) && !_user.Role.ReadUsers {
+	if ctx.Param("id") != strconv.Itoa(int(*_user.Id)) && !_user.Role.ReadUsers {
 		abortNotPermit(ctx)
 		return
 	}
@@ -85,7 +87,7 @@ func CreateUpdateUserPermission(ctx *gin.Context) {
 		return
 	}
 	_user := user.(models.User)
-	if ctx.Param("id") != string(rune(*_user.Id)) && !_user.Role.CreateUpdateUser {
+	if ctx.Param("id") != strconv.Itoa(int(*_user.Id)) && !_user.Role.CreateUpdateUser {
 		abortNotPermit(ctx)
 		return
 	}
@@ -101,7 +103,7 @@ func DeleteUserPermission(ctx *gin.Context) {
 	}
 
 	_user := user.(models.User)
-	if ctx.Param("id") == string(rune(*_user.Id)) || !_user.Role.DeleteUser {
+	if ctx.Param("id") == strconv.Itoa(int(*_user.Id)) || !_user.Role.DeleteUser {
 		abortNotPermit(ctx)
 		return
 	}
