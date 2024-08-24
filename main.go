@@ -26,9 +26,7 @@ func init() {
 }
 
 func main() {
-	router := gin.Default(func(e *gin.Engine) {
-		e.RouterGroup = *e.Group(os.Getenv("BASE_PATH"))
-	})
+	router := gin.Default()
 
 	router.Use(cors.Default())
 	router.Use(middleware.RateLimiter)
