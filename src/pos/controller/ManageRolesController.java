@@ -45,11 +45,11 @@ public class ManageRolesController extends BaseController {
             Object[] row = {
                 Long.valueOf(String.valueOf(i + 1)),
                 role.getName(),
-                true,
-                true,
-                true,
-                true,
-                true,
+                role.getIsCanUpdateProduct(),
+                role.getIsCanReadUsers(),
+                role.getIsCanCreateUpdateUser(),
+                role.getIsCanDeleteUser(),
+                role.getIsCanCreatePurchase(),
                 dateFormat.format(role.getUpdatedAt())
             };
             table.addRow(row);
