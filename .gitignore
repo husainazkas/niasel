@@ -16,7 +16,8 @@ nb-configuration.xml
 *.ear
 
 # Library Files #
-lib/
+lib/*
+!lib/nblibraries.properties
 
 # Plugin Files #
 plugin/
