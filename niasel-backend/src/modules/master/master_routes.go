@@ -2,10 +2,10 @@ package master
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/husainazkas/go_playground/src/modules/master/bank"
-	"github.com/husainazkas/go_playground/src/modules/master/order_status"
-	"github.com/husainazkas/go_playground/src/modules/master/product"
-	"github.com/husainazkas/go_playground/src/modules/master/role"
+	"github.com/husainazkas/niasel/niasel-backend/src/modules/master/bank"
+	"github.com/husainazkas/niasel/niasel-backend/src/modules/master/order_status"
+	"github.com/husainazkas/niasel/niasel-backend/src/modules/master/product"
+	"github.com/husainazkas/niasel/niasel-backend/src/modules/master/role"
 )
 
 func Routes(router *gin.RouterGroup) {

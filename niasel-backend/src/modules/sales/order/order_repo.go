@@ -1,8 +1,8 @@
 package order
 
 import (
-	"github.com/husainazkas/go_playground/src/config"
-	"github.com/husainazkas/go_playground/src/database/models"
+	"github.com/husainazkas/niasel/niasel-backend/src/config"
+	"github.com/husainazkas/niasel/niasel-backend/src/database/models"
 )
 
 func findOne(id string, order *models.Order) error {

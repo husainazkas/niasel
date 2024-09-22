@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/google/uuid"
-	"github.com/husainazkas/go_playground/src/database/models"
-	"github.com/husainazkas/go_playground/src/modules/sales/cart"
+	"github.com/husainazkas/niasel/niasel-backend/src/database/models"
+	"github.com/husainazkas/niasel/niasel-backend/src/modules/sales/cart"
 	"gorm.io/gorm"
 )
 

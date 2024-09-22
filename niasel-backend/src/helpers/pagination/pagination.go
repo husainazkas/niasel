@@ -5,7 +5,7 @@ import (
 	"math"
 	"strconv"
 
-	"github.com/husainazkas/go_playground/src/config"
+	"github.com/husainazkas/niasel/niasel-backend/src/config"
 	"gorm.io/gorm"
 )
 

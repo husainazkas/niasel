@@ -1,4 +1,4 @@
-module github.com/husainazkas/go_playground
+module github.com/husainazkas/niasel/niasel-backend
 
 go 1.22.3
 

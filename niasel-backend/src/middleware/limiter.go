@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/husainazkas/go_playground/src/helpers"
+	"github.com/husainazkas/niasel/niasel-backend/src/helpers"
 	"golang.org/x/time/rate"
 )
 

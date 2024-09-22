@@ -4,8 +4,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/husainazkas/go_playground/src/database/models"
-	"github.com/husainazkas/go_playground/src/helpers"
+	"github.com/husainazkas/niasel/niasel-backend/src/database/models"
+	"github.com/husainazkas/niasel/niasel-backend/src/helpers"
 )
 
 func abortBadConfig(ctx *gin.Context) {

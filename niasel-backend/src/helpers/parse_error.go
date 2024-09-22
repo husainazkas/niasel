@@ -4,7 +4,7 @@ import (
 	"errors"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/husainazkas/go_playground/src/config"
+	"github.com/husainazkas/niasel/niasel-backend/src/config"
 )
 
 type ApiError struct {

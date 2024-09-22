@@ -5,8 +5,8 @@ import (
 	"slices"
 	"strconv"
 
-	"github.com/husainazkas/go_playground/src/database/models"
-	"github.com/husainazkas/go_playground/src/modules/master/product"
+	"github.com/husainazkas/niasel/niasel-backend/src/database/models"
+	"github.com/husainazkas/niasel/niasel-backend/src/modules/master/product"
 	"gorm.io/gorm"
 )
 

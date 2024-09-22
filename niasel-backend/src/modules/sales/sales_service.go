@@ -1,6 +1,6 @@
 package sales
 
-import "github.com/husainazkas/go_playground/src/helpers/pagination"
+import "github.com/husainazkas/niasel/niasel-backend/src/helpers/pagination"
 
 func getSalesSummariesService(query *salesSchema) (*pagination.Pagination, error) {
 	var result pagination.Pagination

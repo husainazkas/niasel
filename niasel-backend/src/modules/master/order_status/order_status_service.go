@@ -3,8 +3,8 @@ package order_status
 import (
 	"strconv"
 
-	"github.com/husainazkas/go_playground/src/database/models"
-	"github.com/husainazkas/go_playground/src/helpers/pagination"
+	"github.com/husainazkas/niasel/niasel-backend/src/database/models"
+	"github.com/husainazkas/niasel/niasel-backend/src/helpers/pagination"
 )
 
 func getListOrderStatusService(query *pagination.PaginationSchema) (*pagination.Pagination, error) {

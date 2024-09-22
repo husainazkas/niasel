@@ -3,7 +3,7 @@ package sales
 import (
 	"time"
 
-	"github.com/husainazkas/go_playground/src/helpers/pagination"
+	"github.com/husainazkas/niasel/niasel-backend/src/helpers/pagination"
 )
 
 type salesSchema struct {

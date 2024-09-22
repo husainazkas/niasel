@@ -1,6 +1,6 @@
 package models
 
-import "github.com/husainazkas/go_playground/src/types"
+import "github.com/husainazkas/niasel/niasel-backend/src/types"
 
 type Product struct {
 	Id        *uint         `gorm:"type:bigint;primaryKey" json:"id"`

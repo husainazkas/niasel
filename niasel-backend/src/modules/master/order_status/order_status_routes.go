@@ -2,7 +2,7 @@ package order_status
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/husainazkas/go_playground/src/middleware"
+	"github.com/husainazkas/niasel/niasel-backend/src/middleware"
 )
 
 func Routes(router *gin.RouterGroup) {

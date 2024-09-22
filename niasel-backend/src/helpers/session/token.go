@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/husainazkas/go_playground/src/database/models"
+	"github.com/husainazkas/niasel/niasel-backend/src/database/models"
 )
 
 func New(accountId uint, roleId uint, ipAddr string, deviceId *string) models.Session {

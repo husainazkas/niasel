@@ -2,9 +2,9 @@ package sales
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/husainazkas/go_playground/src/middleware"
-	"github.com/husainazkas/go_playground/src/modules/sales/cart"
-	"github.com/husainazkas/go_playground/src/modules/sales/order"
+	"github.com/husainazkas/niasel/niasel-backend/src/middleware"
+	"github.com/husainazkas/niasel/niasel-backend/src/modules/sales/cart"
+	"github.com/husainazkas/niasel/niasel-backend/src/modules/sales/order"
 )
 
 func Routes(router *gin.RouterGroup) {
