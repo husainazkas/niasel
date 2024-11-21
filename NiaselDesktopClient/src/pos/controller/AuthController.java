@@ -4,68 +4,71 @@
  */
 package pos.controller;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-import java.util.List;
-import java.util.Optional;
+import io.vavr.control.Option;
+import java.util.Arrays;
+import java.util.function.Consumer;
 import org.apache.commons.codec.digest.DigestUtils;
-import pos.exception.LoginFailureException;
-import pos.model.Role;
-import pos.model.User;
+import pos.entity.User;
+import pos.params.LoginParams;
+import pos.service.local.LocalAuthService;
+import pos.service.remote.RemoteAuthService;
 
 /**
  *
  * @author husainazkas
  */
-public class AuthController extends BaseController {
+public class AuthController {
+
+    private final RemoteAuthService remoteService;
+    private final LocalAuthService localService;
 
     private boolean isSubmitting = false;
-    private Optional<User> currentUser = Optional.empty();
+    private Option<User> currentUser = Option.none();
+
+    public AuthController() {
+        localService = new LocalAuthService();
+        remoteService = new RemoteAuthService(() -> localService.loadToken());
+
+        currentUser = localService.loadUser();
+    }
 
     public boolean getIsSubmitting() {
         return isSubmitting;
     }
 
-    public Optional<User> getCurrentUser() {
+    public Option<User> getCurrentUser() {
         return currentUser;
     }
 
-    public void login(String username, String password) throws Exception {
+    public void login(String username, char[] password, Consumer<Exception> onFailure, Consumer<User> onSuccess) {
         isSubmitting = true;
 
         final String encodedUsername = DigestUtils.sha1Hex(username);
-        final String encodedPass = DigestUtils.sha1Hex(password);
+        final String encodedPass = DigestUtils.sha256Hex(String.valueOf(password));
 
-        try (final EntityManager em = emf.createEntityManager()) {
-            Query query = em.createNativeQuery("SELECT * FROM master_user e WHERE e.username = :username AND e.password = :password", User.class);
-            query.setParameter("username", encodedUsername);
-            query.setParameter("password", encodedPass);
+        var result = remoteService.login(new LoginParams(encodedUsername, encodedPass, "test"));
+        isSubmitting = false;
 
-            List<User> users = (List<User>) query.getResultList();
-            if (users.isEmpty()) {
-                throw LoginFailureException.invalidUsernameOrPassword();
-            }
-
-            User user = users.get(0);
-            if (user.getIsDeleted()) {
-                throw LoginFailureException.userNotFound();
-            } else if (!user.getIsActive()) {
-                throw LoginFailureException.userIsInactive();
-            } 
-            
-            Role role = user.getRole();
-            if (role == null || !role.getIsActive()) {
-                throw new Exception("Role is not active");
-            }
-
-            currentUser = Optional.of(user);
-        } finally {
-            isSubmitting = false;
-        }
+        result.fold((e) -> {
+            onFailure.accept(e);
+            return null;
+        }, (r) -> r.apply((t, u) -> Option.sequence(Arrays.asList(
+                localService.saveToken(t),
+                localService.saveUser(u)
+        )).fold(() -> {
+            currentUser = Option.of(u);
+            onSuccess.accept(u);
+            return null;
+        }, (e) -> {
+            onFailure.accept(e.head());
+            return null;
+        })
+        ));
     }
 
     public void logout() {
-        currentUser = Optional.empty();
+        localService.clearSession();
+        currentUser = Option.none();
         isSubmitting = false;
     }
 

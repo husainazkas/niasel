@@ -136,7 +136,7 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable1MouseClicked"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="jTable1.getModel().addTableModelListener(evt -&gt; {&#xa;    try {&#xa;        User user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();&#xa;&#xa;        newUserButton.setEnabled(user.getRole().getIsCanCreateUpdateUser());&#xa;        manageRoleButton.setEnabled(user.getRole().getIsCanCreateUpdateUser());&#xa;    } catch (Exception ex) {&#xa;    }&#xa;});"/>
+            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="jTable1.getModel().addTableModelListener(evt -&gt; {&#xa;    try {&#xa;        User user = App.getInstance().getAuthController().getCurrentUser().get();&#xa;&#xa;        newUserButton.setEnabled(user.getRole().getIsCanCreateUpdateUser());&#xa;        manageRoleButton.setEnabled(user.getRole().getIsCanCreateUpdateUser());&#xa;    } catch (Exception ex) {&#xa;    }&#xa;});"/>
           </AuxValues>
         </Component>
       </SubComponents>

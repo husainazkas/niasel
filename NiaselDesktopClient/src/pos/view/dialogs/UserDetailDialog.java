@@ -9,9 +9,9 @@ import java.util.Objects;
 import javax.swing.JOptionPane;
 import pos.App;
 import pos.controller.ManageUsersController;
+import pos.entity.Role;
+import pos.entity.User;
 import pos.exception.InstanceNotFoundException;
-import pos.model.Role;
-import pos.model.User;
 
 /**
  *
@@ -62,7 +62,7 @@ public class UserDetailDialog extends javax.swing.JDialog {
 
     private User getCurrentUser() {
         try {
-            return App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+            return App.getInstance().getAuthController().getCurrentUser().get();
         } catch (InstanceNotFoundException | NoSuchElementException ex) {
             return null;
         }
@@ -175,9 +175,9 @@ public class UserDetailDialog extends javax.swing.JDialog {
 
         jLabel12.setText("Username");
 
-        usernameTextField.setFont(new java.awt.Font("Segoe UI", controller.getUserUsername(null) != null ? 2 : 0, 12));
-        usernameTextField.setText(controller.getUserUsername(null) != null ? "This is hidden for security reason" : null);
-        usernameTextField.setEnabled(controller.getUserUsername(null) == null);
+        usernameTextField.setFont(new java.awt.Font("Segoe UI", controller.getUserId(null) != null ? 2 : 0, 12));
+        usernameTextField.setText(controller.getUserId(null) != null ? "This is hidden for security reason" : null);
+        usernameTextField.setEnabled(controller.getUserId(null) == null);
         usernameTextField.setMaximumSize(new java.awt.Dimension(160, 2147483647));
         usernameTextField.setMinimumSize(new java.awt.Dimension(160, 22));
 
@@ -343,7 +343,7 @@ public class UserDetailDialog extends javax.swing.JDialog {
 
         User user;
         try {
-            user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+            user = App.getInstance().getAuthController().getCurrentUser().get();
         } catch (InstanceNotFoundException | NoSuchElementException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Unknown Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -390,7 +390,7 @@ public class UserDetailDialog extends javax.swing.JDialog {
 
         User user;
         try {
-            user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+            user = App.getInstance().getAuthController().getCurrentUser().get();
         } catch (InstanceNotFoundException | NoSuchElementException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Saving Failed", JOptionPane.ERROR_MESSAGE);
             return;
@@ -446,7 +446,7 @@ public class UserDetailDialog extends javax.swing.JDialog {
 
             User user;
             try {
-                user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+                user = App.getInstance().getAuthController().getCurrentUser().get();
             } catch (InstanceNotFoundException | NoSuchElementException ex) {
                 return;
             }

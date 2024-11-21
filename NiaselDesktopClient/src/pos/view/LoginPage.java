@@ -4,12 +4,11 @@
  */
 package pos.view;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import pos.App;
 import pos.controller.AuthController;
+import pos.exception.InstanceNotFoundException;
 
 /**
  *
@@ -131,15 +130,23 @@ public class LoginPage extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             final AuthController authController = App.getInstance().getAuthController();
-            authController.login(usernameTextField.getText(), passwordTextField.getText());
-        } catch (Exception ex) {
-            Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, ex.getMessage());
+            authController.login(
+                    usernameTextField.getText(),
+                    passwordTextField.getPassword(),
+                    (ex) -> {
+                        JOptionPane.showMessageDialog(this, new JLabel(ex.getMessage()), "Login Failed", JOptionPane.ERROR_MESSAGE);
+                    },
+                    (u) -> {
+                        JOptionPane.showMessageDialog(this, new JLabel("Welcome back, " + u.getFullName() + "!"), "Login Success", JOptionPane.INFORMATION_MESSAGE);
+
+                        dispose();
+                        new HomePage().setVisible(true);
+                    }
+            );
+        } catch (InstanceNotFoundException ex) {
             JOptionPane.showMessageDialog(this, new JLabel(ex.getMessage()), "Login Failed", JOptionPane.ERROR_MESSAGE);
-            return;
         }
 
-        dispose();
-        new HomePage().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

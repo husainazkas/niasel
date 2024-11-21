@@ -4,30 +4,21 @@
  */
 package pos.controller;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import pos.model.Product;
-import pos.model.SalesOrder;
-import pos.model.SalesOrderItem;
-import pos.model.User;
+import pos.entity.Product;
+import pos.entity.User;
 
 /**
  *
  * @author husainazkas
  */
-public class SalesController extends BaseController {
+public class SalesController {
 
     private final HashMap<Long, Integer> selectedProduct = new HashMap();
 
@@ -39,27 +30,27 @@ public class SalesController extends BaseController {
      * {@code javax.swing.JTable.getModel()}
      */
     public void loadProducts(TableModel tableModel) {
-        try (final EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.isDeleted = false", Product.class);
-            products = query.getResultList();
-        } catch (Exception ex) {
-            Logger.getLogger(SalesController.class.getName()).log(Level.SEVERE, ex.getMessage());
-        }
-
-        DefaultTableModel table = (DefaultTableModel) tableModel;
-        table.setRowCount(0);
-        for (int i = 0; i < products.size(); i++) {
-            Product p = products.get(i);
-            Object[] row = {
-                Long.valueOf(String.valueOf(i + 1)),
-                p.getBarcodeId(),
-                p.getName(),
-                p.getPrice(),
-                p.getStock(),
-                p.getBrand()
-            };
-            table.addRow(row);
-        }
+//        try (final EntityManager em = emf.createEntityManager()) {
+//            TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.isDeleted = false", Product.class);
+//            products = query.getResultList();
+//        } catch (Exception ex) {
+//            Logger.getLogger(SalesController.class.getName()).log(Level.SEVERE, ex.getMessage());
+//        }
+//
+//        DefaultTableModel table = (DefaultTableModel) tableModel;
+//        table.setRowCount(0);
+//        for (int i = 0; i < products.size(); i++) {
+//            Product p = products.get(i);
+//            Object[] row = {
+//                Long.valueOf(String.valueOf(i + 1)),
+//                p.getBarcodeId(),
+//                p.getName(),
+//                p.getPrice(),
+//                p.getStock(),
+//                p.getBrand()
+//            };
+//            table.addRow(row);
+//        }
     }
 
     public void addProductToCart(Long id, int count, boolean replace) {
@@ -187,35 +178,35 @@ public class SalesController extends BaseController {
     }
 
     public void createTransaction(User user, long totalPrice, long cash, long cashChange) throws Exception {
-        SalesOrder order = new SalesOrder();
-        order.setUuid(UUID.randomUUID().toString());
-        order.setTotalPrice(totalPrice);
-        order.setCash(cash);
-        order.setCashChange(cashChange);
-        order.setCreatedBy(user);
-
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            
-            em.persist(order);
-
-            for (Entry<Long, Integer> entry : selectedProduct.entrySet()) {
-                Product product = products.stream()
-                        .filter(e -> Objects.equals(e.getId(), entry.getKey()))
-                        .findFirst()
-                        .orElse(null);
-                if (product != null) {
-                    SalesOrderItem orderItem = new SalesOrderItem();
-                    orderItem.setOrder(order);
-                    orderItem.setProduct(product);
-                    orderItem.setCount(entry.getValue());
-                    orderItem.setPrice(product.getPrice() * entry.getValue());
-
-                    em.persist(orderItem);
-                }
-            }
-
-            em.getTransaction().commit();
-        }
+//        SalesOrder order = new SalesOrder();
+//        order.setUuid(UUID.randomUUID().toString());
+//        order.setTotalPrice(totalPrice);
+//        order.setCash(cash);
+//        order.setCashChange(cashChange);
+//        order.setCreatedBy(user);
+//
+//        try (final EntityManager em = emf.createEntityManager()) {
+//            em.getTransaction().begin();
+//
+//            em.persist(order);
+//
+//            for (Entry<Long, Integer> entry : selectedProduct.entrySet()) {
+//                Product product = products.stream()
+//                        .filter(e -> Objects.equals(e.getId(), entry.getKey()))
+//                        .findFirst()
+//                        .orElse(null);
+//                if (product != null) {
+//                    SalesOrderItem orderItem = new SalesOrderItem();
+//                    orderItem.setOrder(order);
+//                    orderItem.setProduct(product);
+//                    orderItem.setCount(entry.getValue());
+//                    orderItem.setPrice(product.getPrice() * entry.getValue());
+//
+//                    em.persist(orderItem);
+//                }
+//            }
+//
+//            em.getTransaction().commit();
+//        }
     }
 }

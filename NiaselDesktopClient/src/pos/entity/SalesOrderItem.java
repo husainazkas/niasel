@@ -2,43 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package pos.model;
+package pos.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author husainazkas
  */
-@Entity
-@Table(name = "sales_order_items")
-public class SalesOrderItem implements Serializable {
+public class SalesOrderItem {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "order_id")
     private SalesOrder order;
-
-    @OneToOne
-    @JoinColumn(name = "product_id")
     private Product product;
-
     private Integer count;
-
-    private Long price;
+    private long price;
 
     public Long getId() {
         return id;
@@ -76,7 +54,7 @@ public class SalesOrderItem implements Serializable {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(long price) {
         this.price = price;
     }
 

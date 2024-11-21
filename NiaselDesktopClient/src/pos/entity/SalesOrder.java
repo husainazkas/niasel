@@ -2,17 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package pos.model;
+package pos.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -20,31 +11,15 @@ import java.util.Objects;
  *
  * @author husainazkas
  */
-@Entity
-@Table(name = "sales_order")
-public class SalesOrder implements Serializable {
+public class SalesOrder {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String uuid;
-
-    @Column(name = "total_price")
     private Long totalPrice;
-
     private Long cash;
-
-    @Column(name = "cash_change")
     private Long cashChange;
-
-    @Column(name = "created_at", insertable = false, updatable = false)
     private Date createdAt;
-
-    @OneToOne
-    @JoinColumn(name = "created_by", updatable = false)
-    private User createdBy;
+    private Long createdBy;
 
     public Long getId() {
         return id;
@@ -94,11 +69,11 @@ public class SalesOrder implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public User getCreatedBy() {
+    public Long getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(User createdBy) {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
 

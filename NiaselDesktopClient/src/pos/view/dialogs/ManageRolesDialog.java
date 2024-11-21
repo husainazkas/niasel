@@ -16,7 +16,7 @@ import javax.swing.table.TableColumnModel;
 import pos.App;
 import pos.controller.ManageRolesController;
 import pos.exception.InstanceNotFoundException;
-import pos.model.User;
+import pos.entity.User;
 
 /**
  *
@@ -182,7 +182,7 @@ public class ManageRolesDialog extends javax.swing.JDialog {
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         User user;
         try {
-            user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+            user = App.getInstance().getAuthController().getCurrentUser().get();
         } catch (InstanceNotFoundException | NoSuchElementException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Removing Failed", JOptionPane.ERROR_MESSAGE);
             return;
@@ -201,7 +201,7 @@ public class ManageRolesDialog extends javax.swing.JDialog {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         User user;
         try {
-            user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+            user = App.getInstance().getAuthController().getCurrentUser().get();
         } catch (InstanceNotFoundException | NoSuchElementException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Removing Failed", JOptionPane.ERROR_MESSAGE);
             return;

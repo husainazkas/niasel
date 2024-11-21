@@ -26,7 +26,7 @@ import net.sf.jasperreports.view.JasperViewer;
 import pos.App;
 import pos.controller.ManageUsersController;
 import pos.exception.InstanceNotFoundException;
-import pos.model.User;
+import pos.entity.User;
 
 /**
  *
@@ -125,7 +125,7 @@ public class ManageUsersDialog extends javax.swing.JDialog {
         });
         jTable1.getModel().addTableModelListener(evt -> {
             try {
-                User user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+                User user = App.getInstance().getAuthController().getCurrentUser().get();
 
                 newUserButton.setEnabled(user.getRole().getIsCanCreateUpdateUser());
                 manageRoleButton.setEnabled(user.getRole().getIsCanCreateUpdateUser());
@@ -206,7 +206,7 @@ public class ManageUsersDialog extends javax.swing.JDialog {
 
     private void PrintButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrintButton1ActionPerformed
         try {
-            User user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+            User user = App.getInstance().getAuthController().getCurrentUser().get();
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             String jrxmlPath = "src/pos/report/ManageUser.jrxml";

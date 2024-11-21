@@ -23,7 +23,7 @@ import net.sf.jasperreports.view.JasperViewer;
 import pos.App;
 import pos.controller.SalesReportController;
 import pos.exception.InstanceNotFoundException;
-import pos.model.User;
+import pos.entity.User;
 
 /**
  *
@@ -161,12 +161,12 @@ public class SalesReportPage extends javax.swing.JFrame {
 
     private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
         try {
-            User user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
-            
+            User user = App.getInstance().getAuthController().getCurrentUser().get();
+
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             String jrxmlPath = "src/pos/report/SalesReport.jrxml";
             JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlPath);
-            
+
             //Param for title and description if need
             //Prepare parameters
             HashMap<String, Object> parameters = new HashMap<>();

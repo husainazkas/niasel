@@ -25,9 +25,9 @@ import pos.App;
 import pos.controller.AuthController;
 import pos.controller.SalesController;
 import pos.exception.InstanceNotFoundException;
-import pos.model.Product;
-import pos.model.Role;
-import pos.model.User;
+import pos.entity.Product;
+import pos.entity.Role;
+import pos.entity.User;
 import pos.utils.CustomDocumentFilter;
 import pos.utils.RequestFocusListener;
 import pos.view.dialogs.CheckOutDialog;
@@ -397,7 +397,7 @@ public class HomePage extends javax.swing.JFrame {
     private void postInitComponents() {
         Role role;
         try {
-            User user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+            User user = App.getInstance().getAuthController().getCurrentUser().get();
             role = user.getRole();
         } catch (InstanceNotFoundException | NoSuchElementException ex) {
             return;
@@ -523,7 +523,7 @@ public class HomePage extends javax.swing.JFrame {
     private void purchaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseButtonActionPerformed
         User user;
         try {
-            user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+            user = App.getInstance().getAuthController().getCurrentUser().get();
         } catch (InstanceNotFoundException | NoSuchElementException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Operation Failed", JOptionPane.ERROR_MESSAGE);
             return;

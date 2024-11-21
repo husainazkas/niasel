@@ -2,10 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package pos.model;
+package pos.entity;
 
-import jakarta.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -13,52 +11,23 @@ import java.util.Objects;
  *
  * @author husainazkas
  */
-@Entity
-@Table(name = "master_role")
-public class Role implements Serializable {
+public class Role {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Column()
     private String name;
-
-    @Column(name = "c_u_product", insertable = false, columnDefinition = "BIT", length = 1)
-    private Boolean isCanUpdateProduct;
-
-    @Column(name = "r_users", insertable = false, columnDefinition = "BIT", length = 1)
-    private Boolean isCanReadUsers;
-
-    @Column(name = "c_u_user", insertable = false, columnDefinition = "BIT", length = 1)
-    private Boolean isCanCreateUpdateUser;
-
-    @Column(name = "d_user", insertable = false, columnDefinition = "BIT", length = 1)
-    private Boolean isCanDeleteUser;
-
-    @Column(name = "c_purchase", insertable = false, columnDefinition = "BIT", length = 1)
-    private Boolean isCanCreatePurchase;
-
-    @Column(name = "is_active", insertable = false, columnDefinition = "BIT", length = 1)
-    private Boolean isActive;
-
-    @Column(name = "is_deleted", insertable = false, columnDefinition = "BIT", length = 1)
-    private Boolean isDeleted;
-
-    @Column(name = "updated_at", insertable = false, updatable = false)
+    private boolean isCanCreateUpdateDeleteMaster;
+    private boolean isCanUpdateProduct;
+    private boolean isCanDeleteProduct;
+    private boolean isCanReadUsers;
+    private boolean isCanCreateUpdateUser;
+    private boolean isCanDeleteUser;
+    private boolean isCanCreatePurchase;
+    private boolean isActive;
+    private boolean isDeleted;
     private Date updatedAt;
-
-    @OneToOne
-    @JoinColumn(name = "updated_by")
-    private User updatedBy;
-
-    @Column(name = "created_at", insertable = false, updatable = false)
+    private Long updatedBy;
     private Date createdAt;
-
-    @OneToOne
-    @JoinColumn(name = "created_by", updatable = false)
-    private User createdBy;
+    private Long createdBy;
 
     public Long getId() {
         return id;
@@ -80,12 +49,28 @@ public class Role implements Serializable {
         return isActive;
     }
 
+    public boolean getIsCanCreateUpdateDeleteMaster() {
+        return isCanCreateUpdateDeleteMaster;
+    }
+
+    public void setIsCanCreateUpdateDeleteMaster(boolean isCanCreateUpdateDeleteMaster) {
+        this.isCanCreateUpdateDeleteMaster = isCanCreateUpdateDeleteMaster;
+    }
+
     public void setIsCanUpdateProduct(boolean isCanUpdateProduct) {
         this.isCanUpdateProduct = isCanUpdateProduct;
     }
 
     public boolean getIsCanUpdateProduct() {
         return isCanUpdateProduct;
+    }
+
+    public boolean getIsCanDeleteProduct() {
+        return isCanDeleteProduct;
+    }
+
+    public void setIsCanDeleteProduct(boolean isCanDeleteProduct) {
+        this.isCanDeleteProduct = isCanDeleteProduct;
     }
 
     public void setIsCanReadUsers(boolean isCanReadUsers) {
@@ -140,11 +125,11 @@ public class Role implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public User getUpdatedBy() {
+    public Long getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(User updatedBy) {
+    public void setUpdatedBy(Long updatedBy) {
         this.updatedBy = updatedBy;
     }
 
@@ -156,11 +141,11 @@ public class Role implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public User getCreatedBy() {
+    public Long getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(User createdBy) {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
 

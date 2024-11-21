@@ -2,10 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package pos.model;
+package pos.entity;
 
-import jakarta.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -13,47 +11,18 @@ import java.util.Objects;
  *
  * @author husainazkas
  */
-@Entity
-@Table(name = "master_user")
-public class User implements Serializable {
+public class User {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Column(name = "first_name")
     private String firstName;
-
-    @Column(name = "last_name")
     private String lastName;
-
-    @Column(insertable = false, updatable = false)
-    private String username;
-
-    @OneToOne(optional = false)
-    @JoinColumn(name = "role_id")
     private Role role;
-
-    @Column(name = "is_active", insertable = false, columnDefinition = "BIT", length = 1)
-    private Boolean isActive;
-
-    @Column(name = "is_deleted", insertable = false, columnDefinition = "BIT", length = 1)
-    private Boolean isDeleted;
-
-    @Column(name = "updated_at", insertable = false, updatable = false)
+    private boolean isActive;
+    private boolean isDeleted;
     private Date updatedAt;
-
-    @OneToOne
-    @JoinColumn(name = "updated_by")
-    private User updatedBy;
-
-    @Column(name = "created_at", insertable = false, updatable = false)
+    private Long updatedBy;
     private Date createdAt;
-
-    @OneToOne
-    @JoinColumn(name = "created_by", updatable = false)
-    private User createdBy;
+    private Long createdBy;
 
     public Long getId() {
         return id;
@@ -81,14 +50,6 @@ public class User implements Serializable {
 
     public String getFullName() {
         return firstName + " " + lastName;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public Role getRole() {
@@ -123,11 +84,11 @@ public class User implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public User getUpdatedBy() {
+    public Long getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(User updatedBy) {
+    public void setUpdatedBy(Long updatedBy) {
         this.updatedBy = updatedBy;
     }
 
@@ -139,11 +100,11 @@ public class User implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public User getCreatedBy() {
+    public Long getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(User createdBy) {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -153,7 +114,6 @@ public class User implements Serializable {
         hash += Objects.hashCode(id);
         hash += Objects.hashCode(firstName);
         hash += Objects.hashCode(lastName);
-        hash += Objects.hashCode(username);
         hash += Objects.hashCode(role);
         hash += Objects.hashCode(isActive);
         hash += Objects.hashCode(isDeleted);
@@ -185,9 +145,6 @@ public class User implements Serializable {
         if (!Objects.equals(this.lastName, other.lastName)) {
             return false;
         }
-        if (!Objects.equals(this.username, other.username)) {
-            return false;
-        }
         if (!Objects.equals(this.role, other.role)) {
             return false;
         }
@@ -211,7 +168,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "pos.model.User[ id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + username + ", role=" + role + ", isActive=" + isActive + ", isDeleted=" + isDeleted + ", updatedAt=" + updatedAt + ", updatedBy=" + updatedBy + ", createdAt=" + createdAt + ", createdBy=" + createdBy + " ]";
+        return "pos.model.User[ id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", role=" + role + ", isActive=" + isActive + ", isDeleted=" + isDeleted + ", updatedAt=" + updatedAt + ", updatedBy=" + updatedBy + ", createdAt=" + createdAt + ", createdBy=" + createdBy + " ]";
     }
 
 }

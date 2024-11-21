@@ -32,8 +32,8 @@ import net.sf.jasperreports.view.JasperViewer;
 import pos.App;
 import pos.controller.ProductController;
 import pos.exception.InstanceNotFoundException;
-import pos.model.Product;
-import pos.model.User;
+import pos.entity.Product;
+import pos.entity.User;
 import pos.utils.CustomDocumentFilter;
 
 /**
@@ -459,7 +459,7 @@ public class ProductInventoryPage extends javax.swing.JFrame {
 
         User user;
         try {
-            user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+            user = App.getInstance().getAuthController().getCurrentUser().get();
         } catch (InstanceNotFoundException | NoSuchElementException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Operation Failed", JOptionPane.ERROR_MESSAGE);
             return;
@@ -484,7 +484,7 @@ public class ProductInventoryPage extends javax.swing.JFrame {
 
         User user;
         try {
-            user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+            user = App.getInstance().getAuthController().getCurrentUser().get();
         } catch (InstanceNotFoundException | NoSuchElementException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Operation Failed", JOptionPane.ERROR_MESSAGE);
             return;
@@ -498,7 +498,7 @@ public class ProductInventoryPage extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            User user = App.getInstance().getAuthController().getCurrentUser().orElseThrow();
+            User user = App.getInstance().getAuthController().getCurrentUser().get();
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             String jrxmlPath = "src/pos/report/ReportInventory.jrxml";
