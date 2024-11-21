@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/gin-contrib/cors"
@@ -47,5 +48,12 @@ func main() {
 		c.JSON(404, helpers.ErrorResponse("No route found"))
 	})
 
-	router.Run()
+	// Gin will auto recognize PORT from .env file
+	fmt.Printf("Starting HTTP Server on %v", os.Getenv("PORT"))
+
+	if err := router.Run(); err != nil {
+		fmt.Printf("Failed to run HTTP Server: %v", err)
+		return;
+	}
+
 }

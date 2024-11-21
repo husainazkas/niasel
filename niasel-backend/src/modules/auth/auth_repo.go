@@ -6,7 +6,9 @@ import (
 )
 
 func findByUsername(user *models.User, username string) error {
-	return config.DB.Preload("Account").
+	return config.DB.
+		Preload("Account").
+		Preload("Role").
 		Where("account_id = (?)", config.DB.Model(&models.Account{}).Select("id").Where("username = ?", username)).
 		First(&user).Error
 }

@@ -4,7 +4,6 @@ import (
 	"errors"
 
 	"github.com/husainazkas/niasel/niasel-backend/src/database/models"
-	"github.com/husainazkas/niasel/niasel-backend/src/helpers"
 	"github.com/husainazkas/niasel/niasel-backend/src/helpers/session"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -12,7 +11,7 @@ import (
 func loginService(body *loginSchema, ipAddr string) (*models.User, *models.Session, error) {
 	var user models.User
 
-	if err := findByUsername(&user, helpers.SHA1HexFromString(body.Username)); err != nil {
+	if err := findByUsername(&user, body.Username); err != nil {
 		return nil, nil, errors.New("invalid username or password")
 	}
 
@@ -26,6 +25,8 @@ func loginService(body *loginSchema, ipAddr string) (*models.User, *models.Sessi
 		return nil, nil, err
 	}
 
+	user.IsActive = user.Account.IsActive
+	user.IsDeleted = user.Account.IsDeleted
 	user.Account = nil
 
 	return &user, &userSession, nil

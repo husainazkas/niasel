@@ -1,11 +1,15 @@
 package models
 
+import "github.com/husainazkas/niasel/niasel-backend/src/types"
+
 type User struct {
-	Id        *uint  `gorm:"type:bigint;primaryKey" json:"id"`
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	RoleId    uint   `json:"role_id"`
-	AccountId uint   `json:"account_id"`
+	Id        *uint         `gorm:"type:bigint;primaryKey" json:"id"`
+	FirstName string        `json:"first_name"`
+	LastName  string        `json:"last_name"`
+	IsActive  types.BitBool `gorm:"-:all" json:"is_active"`
+	IsDeleted types.BitBool `gorm:"-:all" json:"is_deleted"`
+	RoleId    uint          `json:"role_id"`
+	AccountId uint          `json:"account_id"`
 	TimestampsAuthor
 
 	// Relations
